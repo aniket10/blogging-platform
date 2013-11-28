@@ -1,14 +1,8 @@
 import cgi  
 import webapp2
 import datetime
-from google.appengine.ext import db
-from google.appengine.api import users
+from Blogs import Blogs
 
-class Blogs(db.Model):
-    title = db.StringProperty(required = True)
-    content = db.StringProperty(required = True)
-    blog_time = db.DateProperty()
-    tags = db.StringProperty()
       
 
 
@@ -23,14 +17,16 @@ class InsertBlogToDataStore(webapp2.RequestHandler):
        form_title = form['title'].value
        form_content = form['content'].value
        form_tags = form['tags'].value
-       form_blog_time = datetime.datetime.now().date();
+       form_blog_time = datetime.datetime.now().time()
+       form_owner = 'aniket'
        
-       b = Blogs(title = form_title, 
-                content = form_content,
-                blog_time = form_blog_time,
-                tags = form_tags)
+       b = Blogs(owner = form_owner,
+                 title = form_title, 
+                 content = form_content,
+                 blog_time = form_blog_time,
+                 tags = form_tags)
        b.put()
-       self.redirect('NewBlog.py;', False, False, Node, Node)
+       self.redirect('/BlogFeed.py', False, False, None, None)
        self.response.write('</body></html>')
 
 

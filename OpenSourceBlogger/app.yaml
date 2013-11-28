@@ -9,4 +9,11 @@ handlers:
   script: NewBlog.application
 
 - url: /InsertBlogToDataStore.py.*
-  script: InsertBlogToDataStore.application  
+  script: InsertBlogToDataStore.application
+  
+- url: /BlogFeed.py.*
+  script: BlogFeed.application
+  
+- url: /Blogs.py.*
+  script: Blogs.application   
+   
