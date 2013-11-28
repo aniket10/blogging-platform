@@ -30,7 +30,7 @@ class InsertBlogToDataStore(webapp2.RequestHandler):
                 blog_time = form_blog_time,
                 tags = form_tags)
        b.put()
-       
+       self.redirect('NewBlog.py;', False, False, Node, Node)
        self.response.write('</body></html>')
 
 
