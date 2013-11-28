@@ -20,8 +20,12 @@
 	         <br>
 	     {% endif %}
 	{% endfor %}      
+	<br><br>
+	{% if more == 1 %}
+		<a href = /BlogFeed.py?page={{ nextpage }}>Next Page</a>
+	{% endif %} 
 	 
-	 self.response.write('</body></html>')
+	</body></html>
 
 
 
