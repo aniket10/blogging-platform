@@ -1,21 +1,15 @@
 import webapp2
+import jinja2
+import os
 
 class MainPage(webapp2.RequestHandler):
 
     def get(self):
-       self.response.headers['Content-Type'] = 'text/html'
-       self.response.write('<html><body><h1>Open Source Blogger</h1><hr>')
-       self.response.write('<h3>Create New Blog</h3>')
-       self.response.write('''<form name = 'newBlog' action='InsertBlogToDataStore.py' > ''')
-       self.response.write('Title goes here:')
-       self.response.write('''<input type='text' name='title' width='50px'/><br><br>''')
-       self.response.write('Contents go here:<br>')
-       self.response.write('''<textarea rows=15 cols=50 name='content'   ></textarea><br>''')
-       self.response.write('<br>Enter tags seperated by ; (semi-colon):<br>')
-       self.response.write('''<input type='text' name='tags'/><br><br>''')
-       self.response.write('''<input type='submit' value='Create Blog'>''')
-       self.response.write('</form>')
-       self.response.write('</body></html>')
+        JINJA_ENVIRONMENT = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+                                               extensions=['jinja2.ext.autoescape'],
+                                               autoescape=True)
+        template = JINJA_ENVIRONMENT.get_template('NewBlog.html')
+        self.response.write(template.render())
 
 application = webapp2.WSGIApplication([
     ('/', MainPage)

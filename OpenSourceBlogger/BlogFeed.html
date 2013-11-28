@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Open Source Blogger</h1><hr>
+    <h1>Blogs by {{ blog_owner }} </h1>
+	{% for b in blogs %}
+	     <hr>
+	     <h3>{{ b.title }}</h3>
+	     <h5> {{ b.blog_time }}</h5>	  
+	     {% if b.content|length <= 500 %}
+	         {{ b.content }}
+	     {% else %}
+	         {{ b.content[:500] }}
+	         ... &nbsp;&nbsp;&nbsp;
+	         <a href=showCompleteBlog.py?blogid={{ b.key().id() }}>more</a>
+	         <br>
+	     {% endif %}
+	{% endfor %}      
+	 
+	 self.response.write('</body></html>')
+
+
+
+
+
+</body>
+</html>
