@@ -16,4 +16,6 @@ handlers:
   
 - url: /Blogs.py.*
   script: Blogs.application   
-   
+ 
+- url: /showCompleteBlog.py.*
+  script: showCompleteBlog.application

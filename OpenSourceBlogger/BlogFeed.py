@@ -18,7 +18,15 @@ class BlogFeed(webapp2.RequestHandler):
            self.response.write('<hr>')
            self.response.write('<h3>'+b.title+'</h3>')
            self.response.write('<h5>'+str(b.blog_time)+'</h5>')
-           self.response.write(b.content)
+        
+           len_content = len(str(b.content))
+           if len_content <= 500:
+               self.response.write(b.content)
+           else :
+               sub_content = b.content[:500]
+               self.response.write(sub_content)
+               blog_id = str(b.key().id())
+               self.response.write('''&nbsp;&nbsp;&nbsp;<a href=showCompleteBlog.py?blogid='''+blog_id+'''>more</a>''')
            self.response.write('<br>')
        
        self.response.write('</body></html>')
