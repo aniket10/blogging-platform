@@ -1,10 +1,16 @@
-application: your-app-id
+application: blogger-aniket
 version: 1
 runtime: python27
 api_version: 1
 threadsafe: true
 
 handlers:
+- url: /Likes.py.*
+  script: Likes.application
+
+- url: /Blogs.py.*
+  script: Blogs.application
+  
 - url: /
   script: home.application
 
@@ -15,19 +21,13 @@ handlers:
   script: InsertBlogToDataStore.application
   
 - url: /BlogFeed.py.*
-  script: BlogFeed.application
-  
-- url: /Blogs.py.*
-  script: Blogs.application   
+  script: BlogFeed.application   
  
 - url: /showCompleteBlog.py.*
   script: showCompleteBlog.application
 
 - url: /searchByTags.py.*
   script: searchByTags.application
-
-- url: /Likes.py.*
-  script: Likes.application
 
 - url: /addLike.py.*
   script: addLike.application

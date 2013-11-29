@@ -7,7 +7,8 @@
 <body>
 	<h1>Open Source Blogger</h1><hr>
     <h1>Blogs by {{ blog_owner }} </h1>
-	{% for b,l in zip(blogs,likes) %}
+    {{ blogsnlikes|count }}
+	{% for b,l in blogsnlikes %}
 	     <hr>
 	     <h3>{{ b.title }}</h3>
 	     <h5> {{ b.blog_time }}</h5>	  

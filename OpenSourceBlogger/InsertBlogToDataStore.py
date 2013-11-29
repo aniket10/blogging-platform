@@ -37,7 +37,7 @@ class InsertBlogToDataStore(webapp2.RequestHandler):
                  tag4 = tags[3],
                  tag5 = tags[4])
        b.put()
-       self.redirect('/BlogFeed.py?page=1', False, False, None, None)
+       self.redirect('/', False, False, None, None)
        self.response.write('</body></html>')
 
 

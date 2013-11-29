@@ -4,6 +4,7 @@ import jinja2
 import urlparse
 import os
 from Blogs import Blogs
+from Likes import Likes
 from google.appengine.ext import db
 
 class BlogFeed(webapp2.RequestHandler):
@@ -39,6 +40,7 @@ class BlogFeed(webapp2.RequestHandler):
        selected = 0
        per_page = 2
        subset_blogs = []
+       blogsnlikes = []
  #      count_blogs = count(blogs)
        for b in blogs:
            count = count + 1
@@ -46,7 +48,7 @@ class BlogFeed(webapp2.RequestHandler):
                continue
            selected = selected + 1
            blogid = str(b.key().id())
-           query_string = "SELECT * FROM LIKES WHERE blogid ='"+blogid+"'"
+           query_string = "SELECT COUNT(*) FROM Likes WHERE blogid ='"+blogid+"'"
            like_count = db.GqlQuery(query_string)
            for lc in like_count:
                likes.append(str(lc))
@@ -55,15 +57,16 @@ class BlogFeed(webapp2.RequestHandler):
        #        if count != count_blogs:
                more = 1
                break
-           
+           blogsnlikes = zip(blogs,likes)
        template_values = {
-                          'blogs': subset_blogs,
+#                          'blogs': subset_blogs,
+                          'blogsnlists':blogsnlikes,
                           'blog_owner': blog_owner,
                           'more':more,
                           'nextpage':page+1,
                           'query':blog_owner,
                           'type':type,
-                          'likes':likes
+#                          'likes':likes
                           }
               
        self.response.write(template.render(template_values))
