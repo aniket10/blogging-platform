@@ -14,6 +14,8 @@ class Blogs(db.Model):
     tag3 = db.StringProperty()
     tag4 = db.StringProperty()
     tag5 = db.StringProperty()
+    thumbsup = db.IntegerProperty(default = 0)
+    thumbsdown = db.IntegerProperty(default = 0)
     
 application = webapp2.WSGIApplication([
     ('/Blogs.*',Blogs)

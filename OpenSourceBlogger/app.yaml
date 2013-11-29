@@ -5,8 +5,8 @@ api_version: 1
 threadsafe: true
 
 handlers:
-- url: /Likes.py.*
-  script: Likes.application
+- url: /Comments.py.*
+  script: Comments.application
 
 - url: /Blogs.py.*
   script: Blogs.application
@@ -29,8 +29,8 @@ handlers:
 - url: /searchByTags.py.*
   script: searchByTags.application
 
-- url: /addLike.py.*
-  script: addLike.application
+- url: /addComment.py.*
+  script: addComment.application
   
 libraries:
 - name: webapp2

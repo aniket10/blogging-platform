@@ -4,7 +4,7 @@ import jinja2
 import urlparse
 import os
 from Blogs import Blogs
-from Likes import Likes
+from Comments import Comments
 from google.appengine.ext import db
 
 class BlogFeed(webapp2.RequestHandler):
@@ -35,6 +35,11 @@ class BlogFeed(webapp2.RequestHandler):
        likes = []
        comments= []
        
+#       self.response.headers['Content-Type'] = 'text/plain'
+#       self.response.write('Hello, World!')
+
+
+       
        more = 0
        count = -1
        selected = 0
@@ -48,19 +53,26 @@ class BlogFeed(webapp2.RequestHandler):
                continue
            selected = selected + 1
            blogid = str(b.key().id())
-           query_string = "SELECT COUNT(*) FROM Likes WHERE blogid ='"+blogid+"'"
+           query_string = "SELECT * FROM Comments WHERE blogid ='"+blogid+"'"
            like_count = db.GqlQuery(query_string)
+#           lc = Likes.filter('blogid=',blogid).get().count()
+           count_likes = 0 
            for lc in like_count:
-               likes.append(str(lc))
+               count_likes = count_likes + 1
+#           self.response.write(count_likes) 
+           likes.append(str(count_likes))
            subset_blogs.append(b)
+#           self.response.write(b.title)
            if selected == per_page:
        #        if count != count_blogs:
                more = 1
-               break
-           blogsnlikes = zip(blogs,likes)
+               break    
+#       self.response.write(likes)    
+       blogsnlikes = zip(subset_blogs,likes)
+#       self.response.write(blogsnlikes)
        template_values = {
 #                          'blogs': subset_blogs,
-                          'blogsnlists':blogsnlikes,
+                          'blogsnlikes':blogsnlikes,
                           'blog_owner': blog_owner,
                           'more':more,
                           'nextpage':page+1,

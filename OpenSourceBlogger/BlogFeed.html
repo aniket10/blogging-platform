@@ -49,9 +49,12 @@
 	     	<a href=/BlogFeed.py?query{{ b.tag5 }}&type=tags&page=1>{{ b.tag5 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
-	     {{ l }} Likes
 	     <br><br>
-	     <a href=/addLike.py?blogid={{ b.key().id() }}&user='aniket'>Like</a>
+	     {{ b.thumbsup }} Thumbs-Up &nbsp;&nbsp;&nbsp;&nbsp;{{ b.thumbsdown }} Thumbs-Down &nbsp;&nbsp;&nbsp;&nbsp;{{ l }} Comments
+	     <br><br>
+	     <a href=/addThumbsUp.py?blogid={{ b.key().id() }}&user='aniket'>Thumbs-Up</a>
+	     &nbsp;&nbsp;&nbsp;
+	     <a href=/addThumbsDown.py?blogid={{ b.key().id() }}&user='aniket'>Thumbs-Down</a>
 	     &nbsp;&nbsp;&nbsp;
 	     <a href=showCompleteBlog.py?blogid={{ b.key().id() }}>Comment</a>
 	     

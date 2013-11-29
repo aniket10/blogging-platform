@@ -1,22 +1,23 @@
 import cgi  
 import webapp2
 import urlparse
-from Likes import Likes
-    
 
 
-class addLike(webapp2.RequestHandler):
+class addComment(webapp2.RequestHandler):
 
     def get(self):
        cur_url = self.request.url
        parsed_url = urlparse.urlparse(cur_url)
        blogid = urlparse.parse_qs(parsed_url.query)['blogid']
-       userid = urlparse.parse_qs(parsed_url.query)['user']  
+       userid = urlparse.parse_qs(parsed_url.query)['user']
+       comment_str = urlparse.parse_qs(parsed_url.query)['comment']    
        blog = blogid[0]
-       user = userid[0]       
+       user = userid[0]
+       comment = comment_str[0]       
        
-       l = Likes(owner = user,
-                 blogid = blog)
+       l = Comments(owner = user,
+                 blogid = blog,
+                 comment = comment)
        l.put()
        self.redirect("/showCompleteBlog.py?blogid="+blog, False, False, None, None)
        
@@ -24,7 +25,7 @@ class addLike(webapp2.RequestHandler):
 
 
 application = webapp2.WSGIApplication([
-    ('/addLike.*',addLike)
+    ('/addComment.*',addComment)
     ], debug=True)
 
 

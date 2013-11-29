@@ -19,9 +19,16 @@ class showCompleteBlog(webapp2.RequestHandler):
        blogid = urlparse.parse_qs(parsed_url.query)['blogid']  
        b = Blogs.get_by_id(int(blogid[0]))
        
-       template_values = {
-            'b': b,
-       }
+       query = "SELECT * FROM Comments WHERE blogid='"+blogid[0]+"'"
+       comments_list = db.GqlQuery(query)
+       count_comments = 0
+       for c in comments_list:
+           count_comments = count_comments + 1
+       
+       template_values = {'comments':comments_list,
+                          'b': b,
+                          'comment_count':count_comments
+                          }
        
        self.response.write(template.render(template_values))
        

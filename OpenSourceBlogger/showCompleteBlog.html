@@ -10,6 +10,26 @@
 	 <h3>{{ b.title }}</h3>
 	 <h5>{{ b.blog_time }}</h5>
 	 {{ b.content }}
+	 <br><hr>
+	 {{ b.thumbsup }} Thumbs-Up &nbsp;&nbsp;&nbsp;&nbsp;{{ b.thumbsdown }} Thumbs-Down &nbsp;&nbsp;&nbsp;&nbsp; {{ comment_count }} Comments
 	 <br>
+	 <a href=/addThumbsUp.py?blogid={{ b.key().id() }}&user='aniket'>Thumbs-Up</a>
+	 &nbsp;&nbsp;&nbsp;
+	 <a href=/addThumbsDown.py?blogid={{ b.key().id() }}&user='aniket'>Thumbs-Down</a>
+	 <hr><br>
+	 {% for c in comments %}
+	 	{{ c.owner }} wrote : <br>
+	 	{{ c.comment }}
+	 	<br><br>
+	 {% endfor %}
+	 Add Comment:
+	 <form name='new_comment'>
+	 	<input type="text" name='user' value='aniket' /><br>
+	 	<input type="text" name='blogid' value={{ b.key().id() }} /><br>
+	 	<textarea name='comment'> </textarea>
+	 	<input type="submit" value="Add Comment" />
+	 </form>
+	 
+	 
 </body>
 </html>
