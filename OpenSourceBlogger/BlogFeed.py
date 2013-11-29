@@ -30,6 +30,9 @@ class BlogFeed(webapp2.RequestHandler):
            blogs = db.GqlQuery("SELECT * FROM Blogs WHERE owner = '"+blog_owner+"' ORDER BY blog_time DESC")
        else:
            self.redirect('/', False, False, None, None)
+           
+       likes = []
+       comments= []
        
        more = 0
        count = -1
@@ -42,6 +45,11 @@ class BlogFeed(webapp2.RequestHandler):
            if (page-1)*per_page > count:
                continue
            selected = selected + 1
+           blogid = str(b.key().id())
+           query_string = "SELECT * FROM LIKES WHERE blogid ='"+blogid+"'"
+           like_count = db.GqlQuery(query_string)
+           for lc in like_count:
+               likes.append(str(lc))
            subset_blogs.append(b)
            if selected == per_page:
        #        if count != count_blogs:
@@ -54,7 +62,8 @@ class BlogFeed(webapp2.RequestHandler):
                           'more':more,
                           'nextpage':page+1,
                           'query':blog_owner,
-                          'type':type
+                          'type':type,
+                          'likes':likes
                           }
               
        self.response.write(template.render(template_values))

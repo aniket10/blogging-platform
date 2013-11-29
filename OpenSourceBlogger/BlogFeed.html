@@ -7,7 +7,7 @@
 <body>
 	<h1>Open Source Blogger</h1><hr>
     <h1>Blogs by {{ blog_owner }} </h1>
-	{% for b in blogs %}
+	{% for b,l in zip(blogs,likes) %}
 	     <hr>
 	     <h3>{{ b.title }}</h3>
 	     <h5> {{ b.blog_time }}</h5>	  
@@ -48,6 +48,12 @@
 	     	<a href=/BlogFeed.py?query{{ b.tag5 }}&type=tags&page=1>{{ b.tag5 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
+	     {{ l }} Likes
+	     <br><br>
+	     <a href=/addLike.py?blogid={{ b.key().id() }}&user='aniket'>Like</a>
+	     &nbsp;&nbsp;&nbsp;
+	     <a href=showCompleteBlog.py?blogid={{ b.key().id() }}>Comment</a>
+	     
 	{% endfor %}      
 	<br><br>
 	{% if more == 1 %}

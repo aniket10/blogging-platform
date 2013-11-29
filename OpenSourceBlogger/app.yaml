@@ -25,6 +25,12 @@ handlers:
 
 - url: /searchByTags.py.*
   script: searchByTags.application
+
+- url: /Likes.py.*
+  script: Likes.application
+
+- url: /addLike.py.*
+  script: addLike.application
   
 libraries:
 - name: webapp2
