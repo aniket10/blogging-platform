@@ -19,14 +19,25 @@ class InsertBlogToDataStore(webapp2.RequestHandler):
        form_tags = form['tags'].value
        form_blog_time = datetime.datetime.now().time()
        form_owner = 'aniket'
+       tags = form_tags.split(';')
+       count_tags=len(tags)
+       
+       while count_tags <=5:
+            tags.append("")
+            count_tags = count_tags + 1
+       
        
        b = Blogs(owner = form_owner,
                  title = form_title, 
                  content = form_content,
                  blog_time = form_blog_time,
-                 tags = form_tags)
+                 tag1 = tags[0],
+                 tag2 = tags[1],
+                 tag3 = tags[2],
+                 tag4 = tags[3],
+                 tag5 = tags[4])
        b.put()
-       self.redirect('/BlogFeed.py', False, False, None, None)
+       self.redirect('/BlogFeed.py?page=1', False, False, None, None)
        self.response.write('</body></html>')
 
 

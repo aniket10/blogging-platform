@@ -12,6 +12,6 @@ class MainPage(webapp2.RequestHandler):
         self.response.write(template.render())
 
 application = webapp2.WSGIApplication([
-    ('/', MainPage)
+    ('/NewBlog.*', MainPage)
     ], debug=True)
 

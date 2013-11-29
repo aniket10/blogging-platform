@@ -4,39 +4,39 @@ import jinja2
 import urlparse
 import os
 from Blogs import Blogs
+
 from google.appengine.ext import db
 
-class BlogFeed(webapp2.RequestHandler):
+class searchByTags(webapp2.RequestHandler):
 
     def get(self):
        JINJA_ENVIRONMENT = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
                                                extensions=['jinja2.ext.autoescape'],
                                                autoescape=True)
        template = JINJA_ENVIRONMENT.get_template('BlogFeed.html')
+        
        
        cur_url = self.request.url
        parsed_url = urlparse.urlparse(cur_url)
        pageNo = urlparse.parse_qs(parsed_url.query)['page']
-       query_name = urlparse.parse_qs(parsed_url.query)['query']
-       type_name = urlparse.parse_qs(parsed_url.query)['type']
-       page = int(pageNo[0])
-       query = query_name[0]
-       type = type_name[0]   
-       blogs = []
-       blog_owner = ''
-       
-       if type == 'owner':
-           blog_owner = query
-           blogs = db.GqlQuery("SELECT * FROM Blogs WHERE owner = '"+blog_owner+"' ORDER BY blog_time DESC")
-       else:
-           self.redirect('/', False, False, None, None)
-       
+       tag_name = urlparse.parse_qs(parsed_url.query)['query']
+       page = int(pageNo[0])  
+       tag = tag_name[0]
+
+#       blogs = db.GqlQuery("SELECT * FROM Blogs WHERE tag1 ='"+tag+"' or tag2 ='"+tag+"' or tag3 ='"+tag+"' or tag4 ='"+tag+"' or tag5 ='"+tag+"' ORDER BY blog_time DESC")
+ #      def blogs = search.search {SELECT ALL FROM Blogs
+#       blogs = db.GqlQuery("SELECT * FROM Blogs WHERE '"+tag+"' in [tag1,tag2,tag3,tag4,tag5] 'ORDER BY blog_time DESC")
+ #                                 SORT DESC BY blog_time
+ #                                 WHERE tags =~ tag
+ #                                 }
+
+       blogs = Blogs.query().filter(ndb.OR(tag1 == tag ,tag2 == tag))
+                     
        more = 0
        count = -1
        selected = 0
        per_page = 2
        subset_blogs = []
- #      count_blogs = count(blogs)
        for b in blogs:
            count = count + 1
            if (page-1)*per_page > count:
@@ -44,7 +44,6 @@ class BlogFeed(webapp2.RequestHandler):
            selected = selected + 1
            subset_blogs.append(b)
            if selected == per_page:
-       #        if count != count_blogs:
                more = 1
                break
            
@@ -52,14 +51,12 @@ class BlogFeed(webapp2.RequestHandler):
                           'blogs': subset_blogs,
                           'blog_owner': blog_owner,
                           'more':more,
-                          'nextpage':page+1,
-                          'query':blog_owner,
-                          'type':type
+                          'nextpage':page+1
                           }
               
        self.response.write(template.render(template_values))
            
 application = webapp2.WSGIApplication([
-    ('/BlogFeed.*', BlogFeed)
+    ('/searchByTags.*', searchByTags)
     ], debug=True)
 

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Open Source Blogger</h1><hr>
+	<a href="NewBlog.py"> Create New Blog</a>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<br><br>
+	Search for blogs using hashtags or owner. For searching using hash tags use ;(semi colon to seperate out hash tags)
+	<form name = "search" action="BlogFeed.py">
+		<input type="text" name="query">
+		as
+		<select name="type">
+			<option value='tags'>Hash Tags</option>
+			<option value='owner'>Owner</option> 
+		</select><br>		
+		<input type="hidden" name="page" value="1"/>
+		<input type="submit" value="Search">	
+	</form>
+</body>
+</html>

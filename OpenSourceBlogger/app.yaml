@@ -6,6 +6,9 @@ threadsafe: true
 
 handlers:
 - url: /
+  script: home.application
+
+- url: /NewBlog.py.*
   script: NewBlog.application
 
 - url: /InsertBlogToDataStore.py.*
@@ -19,6 +22,9 @@ handlers:
  
 - url: /showCompleteBlog.py.*
   script: showCompleteBlog.application
+
+- url: /searchByTags.py.*
+  script: searchByTags.application
   
 libraries:
 - name: webapp2

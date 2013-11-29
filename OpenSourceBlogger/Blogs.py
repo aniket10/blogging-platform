@@ -9,7 +9,11 @@ class Blogs(db.Model):
     title = db.StringProperty(required = True)
     content = db.BlobProperty(required = True)
     blog_time = db.TimeProperty(required = True)
-    tags = db.StringProperty()
+    tag1 = db.StringProperty()
+    tag2 = db.StringProperty()
+    tag3 = db.StringProperty()
+    tag4 = db.StringProperty()
+    tag5 = db.StringProperty()
     
 application = webapp2.WSGIApplication([
     ('/Blogs.*',Blogs)
