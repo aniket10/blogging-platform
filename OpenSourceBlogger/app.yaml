@@ -31,7 +31,12 @@ handlers:
 
 - url: /addComment.py.*
   script: addComment.application
+
+- url: /addThumbsUp.py.*
+  script: addThumbsUp.application
   
+- url: /addThumbsDown.py.*
+  script: addThumbsDown.application    
 libraries:
 - name: webapp2
   version: latest

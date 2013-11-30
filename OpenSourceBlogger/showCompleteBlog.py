@@ -4,6 +4,7 @@ import urlparse
 import jinja2
 import os
 from Blogs import Blogs
+from Comments import Comments
 from google.appengine.ext import db
 
 class showCompleteBlog(webapp2.RequestHandler):
