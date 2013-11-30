@@ -23,7 +23,7 @@
 	 	<br><br>
 	 {% endfor %}
 	 Add Comment:
-	 <form name='new_comment'>
+	 <form name='new_comment' action="addComment.py">
 	 	<input type="text" name='user' value='aniket' /><br>
 	 	<input type="text" name='blogid' value={{ b.key().id() }} /><br>
 	 	<textarea name='comment'> </textarea>

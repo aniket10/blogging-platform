@@ -1,7 +1,7 @@
 import cgi  
 import webapp2
 import urlparse
-
+from Comments import Comments
 
 class addComment(webapp2.RequestHandler):
 
