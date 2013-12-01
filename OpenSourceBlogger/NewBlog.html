@@ -6,15 +6,21 @@
 </head>
 <body>
     <h1>Open Source Blogger</h1><hr>
-    <h3>Create New Blog</h3>
-    <form name = 'newBlog' action='InsertBlogToDataStore.py' > 
-    Title goes here:
-    <input type='text' name='title' width='50px'/><br><br>
-    Contents go here:<br>
-    <textarea rows=15 cols=50 name='content'   ></textarea><br>
-    <br>Enter tags seperated by ; (semi-colon):<br>
-    <input type='text' name='tags'/><br><br>
-    <input type='submit' value='Create Blog'>
-    </form>
+    {% if login %}
+    	<p align = right >Welcome {{ username }} &nbsp;&nbsp;&nbsp;&nbsp;<a href={{ logout_url }} >LogOut</a><br></p>
+    	<h3>Create New Blog</h3>
+	    <form name = 'newBlog' action='InsertBlogToDataStore.py' >
+	    <input type=text name='owner' value={{ username }} />
+	    Title goes here:
+	    <input type='text' name='title' width='50px'/><br><br>
+	    Contents go here:<br>
+	    <textarea rows=15 cols=50 name='content'   ></textarea><br>
+	    <br>Enter tags seperated by ; (semi-colon):<br>
+	    <input type='text' name='tags'/><br><br>
+	    <input type='submit' value='Create Blog'>
+	    </form>
+    {% else %}
+    	<a href={{ login_url }} > Login </a> to create a new Blog
+	{% endif %} 
 </body>
 </html>
