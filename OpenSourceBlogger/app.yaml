@@ -39,7 +39,14 @@ handlers:
   script: addThumbsUp.application
   
 - url: /addThumbsDown.py.*
-  script: addThumbsDown.application    
+  script: addThumbsDown.application
+  
+- url: /modifyBlog.py.*
+  script: modifyBlog.application
+
+- url: /UpdateBlogToDataStore.py.*
+  script: UpdateBlogToDataStore.application
+        
 libraries:
 - name: webapp2
   version: latest

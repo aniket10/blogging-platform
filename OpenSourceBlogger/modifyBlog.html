@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>New Blog</title>
+</head>
+<body>
+    <h1>Open Source Blogger</h1><hr>
+ 	{% if login == 1 %}
+    	<p align = right >Welcome {{ b.owner }} &nbsp;&nbsp;&nbsp;&nbsp;<a href={{ logout_url }} >LogOut</a><br></p>
+    	<h3>Modify Blog</h3>
+	    <form name = 'newBlog' action='UpdateBlogToDataStore.py' >
+	    <input type=text name='owner' value={{ b.owner }} ></input>
+	    <input type = hidden name = "blogid" value = {{ b.key().id() }} />
+	    Title goes here:
+	    <input type='text' name='title' width='50px' value="{{ b.title }}"/><br><br>
+	    Contents go here:<br>
+	    <textarea rows=15 cols=50 name='content'   >{{ b.content }}</textarea><br>
+	    <br>Enter tags seperated by ; (semi-colon):<br>
+	    <input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}};{{ b.tag4}};{{ b.tag5}}"/><br><br>
+	    <input type='submit' value='Create Blog'>
+	    </form>
+	{% else %}
+		<a href={{ login_url }} > Login </a> to modify a new Blog
+	{% endif %} 
+ 
+
+ 
+</body>
+</html>

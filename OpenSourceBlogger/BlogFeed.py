@@ -5,6 +5,7 @@ import urlparse
 import os
 from Blogs import Blogs
 from Comments import Comments
+from UserLoggedin import UserLoggedIn
 from google.appengine.ext import db
 
 class BlogFeed(webapp2.RequestHandler):
@@ -20,16 +21,24 @@ class BlogFeed(webapp2.RequestHandler):
        pageNo = urlparse.parse_qs(parsed_url.query)['page']
        query_name = urlparse.parse_qs(parsed_url.query)['query']
        type_name = urlparse.parse_qs(parsed_url.query)['type']
+       session_name = urlparse.parse_qs(parsed_url.query)['sessionId']
        page = int(pageNo[0])
        query = query_name[0]
-       type = type_name[0]   
+       type = type_name[0]
+       sessionId = session_name[0]   
        blogs = []
        blog_owner = ''
+              
+       query_type = 0
        
        if type == 'owner':
            blog_owner = query
-           blogs = db.GqlQuery("SELECT * FROM Blogs WHERE owner = '"+blog_owner+"' ORDER BY blog_time DESC")
+           blogs = db.GqlQuery("SELECT * FROM Blogs WHERE owner = '"+blog_owner+"' ORDER BY create_time DESC")
+       
+           query_type = 0
        else:
+       
+           query_type = 1
            all_blogs = db.GqlQuery('SELECT * from Blogs')
            blogs = []
            for b in all_blogs:
@@ -40,18 +49,16 @@ class BlogFeed(webapp2.RequestHandler):
                self.redirect('/', False, False, None, None)
        likes = []
        comments= []
-             
-#       self.response.headers['Content-Type'] = 'text/plain'
-#       self.response.write('Hello, World!')
-
-
-       
+                  
        more = 0
        count = -1
        selected = 0
        per_page = 2
        subset_blogs = []
        blogsnlikes = []
+       user = UserLoggedIn.get_by_id(int(sessionId))
+       username = user.blogger.nickname()
+       
  #      count_blogs = count(blogs)
        for b in blogs:
            count = count + 1
@@ -82,8 +89,11 @@ class BlogFeed(webapp2.RequestHandler):
                           'blog_owner': blog_owner,
                           'more':more,
                           'nextpage':page+1,
-                          'query':blog_owner,
+                          'query': query,
                           'type':type,
+                          'query_type' : query_type,
+                          'username' : username,
+                          'sessionId' :sessionId
 #                          'likes':likes
                           }
               
