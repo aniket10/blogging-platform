@@ -5,21 +5,19 @@ import urlparse
 from google.appengine.api import users 
 from UserLoggedin import UserLoggedIn
 
-class MainPage(webapp2.RequestHandler):
+class NewPage(webapp2.RequestHandler):
 
     def get(self):
         JINJA_ENVIRONMENT = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
                                                extensions=['jinja2.ext.autoescape'],
                                                autoescape=True)
-        template = JINJA_ENVIRONMENT.get_template('NewBlog.html')
+        template = JINJA_ENVIRONMENT.get_template('NewPage.html')
         
         cur_url = self.request.url
         parsed_url = urlparse.urlparse(cur_url)
-        session = urlparse.parse_qs(parsed_url.query)['sessionId']
-        pn = urlparse.parse_qs(parsed_url.query)['PageName']    
+        session = urlparse.parse_qs(parsed_url.query)['sessionId']  
         sessionId = int(session[0])
-        page_name = int(pn[0])
-        
+       
         login = 0
         login_url = ""
         username = ""
@@ -38,12 +36,11 @@ class MainPage(webapp2.RequestHandler):
                           'logout_url' : logout_url,
                           'username' : username,
                           'sessionId' : session,
-                          'parentPageId' : page_name
                             }
                 
         self.response.write(template.render(template_values))
 
 application = webapp2.WSGIApplication([
-    ('/NewBlog.*', MainPage)
+    ('/NewPage.*', NewPage)
     ], debug=True)
 

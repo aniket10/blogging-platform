@@ -8,13 +8,28 @@
 	<h1>Open Source Blogger</h1><hr>
 	{% if login %} 
 	    <p align = right >Welcome {{ username }} &nbsp;&nbsp;&nbsp;&nbsp;<a href={{ logout_url }} >LogOut</a><br></p>
- 		<a href="NewBlog.py?sessionId={{ sessionId }}"> Create New Blog</a>
+ 		<a href="/NewPage.py?sessionId={{ sessionId }}"> Create New Blog</a><br>
+ 		{% if ubcount > 0 %}
+	 		<form name="AddPost" action="/NewBlog.py" >
+	 		    Add Post to an existing Blog:
+	 			<input type = "text" name="sessionId" value= "{{sessionId}}" />
+	 			<select name="PageName">
+	 			   {% for ub in userblogs %}
+	 			     {{ ub.page_name }}
+	 				<option name="{{ ub.page_name }}" value="{{ub.key().id()}}">{{ub.page_name}}</option>
+	 			   {% endfor %}	 
+	 			</select> 
+	 			<input type="submit" name="addPost" value="Create Post" />
+	 		</form>
+ 		{% else %}
+ 			You Donot Own any Blog Page. Create a Blog Page First.
+ 		{% endif %}
 	{% else %}
-		<a href={{ login_url }} > Login </a> to create a new Blog
+		<a href={{ login_url }} > Login </a> to create a new Blog or Add a post to your Blog
 	{% endif %}
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<br><br>
-	Search for blogs using hashtags or owner. For searching using hash tags use ;(semi colon to seperate out hash tags)
+	Search for blogs using hashtags or owner or BlogName. 
 	<form name = "search" action="BlogFeed.py">
 		<input type="text" name="query">
 		as

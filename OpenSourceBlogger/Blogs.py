@@ -5,6 +5,7 @@ from google.appengine.ext import db
 from google.appengine.api import users
 
 class Blogs(db.Model):
+    ParentBlogId = db.IntegerProperty(required = True)
     owner= db.StringProperty(required = True)
     title = db.StringProperty(required = True)
     content = db.BlobProperty(required = True)

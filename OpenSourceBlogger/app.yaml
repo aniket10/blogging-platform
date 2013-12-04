@@ -16,6 +16,9 @@ handlers:
 
 - url: /Follow.py.*
   script: Follow.application
+
+- url: /Pages.py.*
+  script: Pages.application
   
 - url: /
   script: home.application
@@ -52,6 +55,13 @@ handlers:
         
 - url: /AddFollow.py.*
   script: AddFollow.application
+
+- url: /NewPage.py.*
+  script: NewPage.application
+
+- url: /InsertPageToDataStore.py.*
+  script: InsertPageToDataStore.application
+
 
 libraries:
 - name: webapp2

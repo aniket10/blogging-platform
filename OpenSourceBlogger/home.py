@@ -9,6 +9,7 @@ from google.appengine.api import users
 from UserLoggedin import UserLoggedIn
 from Comments import Comments
 from Follow import Follow
+from Pages import Pages
 
 class home(webapp2.RequestHandler):
 
@@ -26,7 +27,7 @@ class home(webapp2.RequestHandler):
        sessionId = 0
        display_list = []
        comments = []
-       
+              
        if user:
            login = 1
            username = user.nickname()
@@ -95,14 +96,24 @@ class home(webapp2.RequestHandler):
            login = 0
            login_url = users.create_login_url('/')
        logout_url = users.create_logout_url('/')
-          
+                 
        dlc = zip(display_list,comments)
+       userblogs = []
+       dbquery = "SELECT * FROM Pages WHERE owner = '"+username+"'";
+       userblogs = db.GqlQuery(dbquery)
+       
+       ubcount = 0
+       for ub in userblogs:
+           ubcount = ubcount + 1
+       
        template_values = {'login' : login,
                           'login_url' : login_url,
                           'logout_url' : logout_url,
                           'username' : username,
                           'sessionId' : sessionId,
-                          'display_listnComments' : dlc
+                          'display_listnComments' : dlc,
+                          'userblogs' : userblogs,
+                          'ubcount' : ubcount
                            }                          
        self.response.write(template.render(template_values))
        
