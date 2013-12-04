@@ -6,6 +6,7 @@ import os
 from Blogs import Blogs
 from Comments import Comments
 from UserLoggedin import UserLoggedIn
+from Follow import Follow
 from google.appengine.ext import db
 
 class BlogFeed(webapp2.RequestHandler):
@@ -58,6 +59,17 @@ class BlogFeed(webapp2.RequestHandler):
        blogsnlikes = []
        user = UserLoggedIn.get_by_id(int(sessionId))
        username = user.blogger.nickname()
+       following = 0
+       
+       dbquery = "Select * from Follow where item='"+query+"' AND user='"+username+"' AND type="+str(query_type)
+       follow_list = db.GqlQuery(dbquery)
+       follow_count = 0
+       
+       for f in follow_list:
+           follow_count = follow_count + 1
+           
+       if follow_count > 0:
+            following = 1
        
  #      count_blogs = count(blogs)
        for b in blogs:
@@ -93,7 +105,9 @@ class BlogFeed(webapp2.RequestHandler):
                           'type':type,
                           'query_type' : query_type,
                           'username' : username,
-                          'sessionId' :sessionId
+                          'sessionId' :sessionId,
+                          'cur_url' : cur_url,
+                          'following' : following
 #                          'likes':likes
                           }
               

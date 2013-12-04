@@ -7,10 +7,23 @@
 <body>
 	<h1>Open Source Blogger</h1><hr>
 	{% if query_type == 0 %}
-    	<h1>Blogs by {{ query }} </h1>
+    	<h1>Blogs by {{ query }}</h1>     	
     {% else  %}
     	<h1>Blogs containing #{{ query }}</h1>
     {% endif %}
+    {% if following == 0 %}
+    	<form name="follow" action="/AddFollow.py">
+    		<input type="text" name="type" value="{{query_type}}" />
+    		<input type="text" name="user" value="{{username}}" />
+    		<input type=text name = "url" value="{{ cur_url }}" />
+    		<input type=text name = "item" value="{{ query }}" />
+    		<input type="submit" value="FOLLOW {{ query }}" />
+    	</form>
+    {% else %}
+    	<form name="follow"	>
+    		<input type="button" value="FOLLOWING" />
+    	</form>
+    {% endif %}	
 	{% for b,l in blogsnlikes %}
 	     <hr>
 	     <h3><a href=showCompleteBlog.py?blogid={{ b.key().id() }}>{{ b.title }}</a></h3>

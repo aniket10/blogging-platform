@@ -13,6 +13,9 @@ handlers:
 
 - url: /UserLoggedIn.py.*
   script: UserLoggedIn.application
+
+- url: /Follow.py.*
+  script: Follow.application
   
 - url: /
   script: home.application
@@ -47,6 +50,9 @@ handlers:
 - url: /UpdateBlogToDataStore.py.*
   script: UpdateBlogToDataStore.application
         
+- url: /AddFollow.py.*
+  script: AddFollow.application
+
 libraries:
 - name: webapp2
   version: latest
