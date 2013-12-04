@@ -28,10 +28,16 @@ class home(webapp2.RequestHandler):
            u = UserLoggedIn(blogger = user)
            u.put()
            sessionId = str(u.key().id())
+           
+               
+           
+           
+           
        else: 
            login = 0
            login_url = users.create_login_url('/')
        logout_url = users.create_logout_url('/')
+          
     
        template_values = {'login' : login,
                           'login_url' : login_url,
