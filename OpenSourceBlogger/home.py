@@ -7,6 +7,8 @@ from Blogs import Blogs
 from google.appengine.ext import db
 from google.appengine.api import users
 from UserLoggedin import UserLoggedIn
+from Comments import Comments
+from Follow import Follow
 
 class home(webapp2.RequestHandler):
 
@@ -22,6 +24,9 @@ class home(webapp2.RequestHandler):
        login_url = ""
        username = ""
        sessionId = 0
+       display_list = []
+       comments = []
+       
        if user:
            login = 1
            username = user.nickname()
@@ -29,21 +34,76 @@ class home(webapp2.RequestHandler):
            u.put()
            sessionId = str(u.key().id())
            
-               
+           dbquery = "SELECT * FROM Follow WHERE user='"+username+"'"
+           follow_list = db.GqlQuery(dbquery)
            
+           blogs = []
+           ppl = []
+           tags = []
            
+           for f in follow_list:
+               if f.type == 0:
+                   ppl.append(f.item)
+               if f.type == 1:
+                   tags.append(f.item)
+               if f.type == 2:
+                   ppl.append(f.item)    
            
+           dbquery = "SELECT * FROM Blogs ORDER BY modify_time DESC"
+           blog_list = db.GqlQuery(dbquery)
+           
+           selected_count = 0
+           
+           for b in blog_list:
+               selected = 0
+               if b.owner in ppl:
+                   display_list.append(b)
+                   selected = 1
+               elif b.tag1 in tags:
+                   display_list.append(b)
+                   selected = 1
+               elif b.tag2 in tags:
+                   display_list.append(b)
+                   selected = 1
+               elif b.tag3 in tags:
+                   display_list.append(b)
+                   selected = 1
+               elif b.tag4 in tags:
+                   display_list.append(b)
+                   selected = 1
+               elif b.tag5 in tags:    
+                   display_list.append(b)
+                   selected = 1
+                   
+               if selected == 1:
+                   selected_count = selected_count + 1    
+                   blogid = str(b.key().id())
+                   query_string = "SELECT * FROM Comments WHERE blogid ='"+blogid+"'"
+                   comment_count = db.GqlQuery(query_string)
+#           lc = Likes.filter('blogid=',blogid).get().count()
+                   count_comment = 0 
+                   for cc in comment_count:
+                       count_comment = count_comment + 1
+#           self.response.write(count_likes) 
+                   comments.append(str(count_comment))
+                   
+                   if selected_count == 100:
+                       break
+                   
+                   
        else: 
            login = 0
            login_url = users.create_login_url('/')
        logout_url = users.create_logout_url('/')
           
-    
+       dlc = zip(display_list,comments)
        template_values = {'login' : login,
                           'login_url' : login_url,
                           'logout_url' : logout_url,
                           'username' : username,
-                          'sessionId' : sessionId  }                          
+                          'sessionId' : sessionId,
+                          'display_listnComments' : dlc
+                           }                          
        self.response.write(template.render(template_values))
        
 application = webapp2.WSGIApplication([
