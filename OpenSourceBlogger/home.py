@@ -6,6 +6,7 @@ import os
 from Blogs import Blogs
 from google.appengine.ext import db
 from google.appengine.api import users
+from UserLoggedin import UserLoggedIn
 
 class home(webapp2.RequestHandler):
 
@@ -20,9 +21,13 @@ class home(webapp2.RequestHandler):
        login = 0
        login_url = ""
        username = ""
+       sessionId = 0
        if user:
            login = 1
            username = user.nickname()
+           u = UserLoggedIn(blogger = user)
+           u.put()
+           sessionId = str(u.key().id())
        else: 
            login = 0
            login_url = users.create_login_url('/')
@@ -31,7 +36,8 @@ class home(webapp2.RequestHandler):
        template_values = {'login' : login,
                           'login_url' : login_url,
                           'logout_url' : logout_url,
-                          'username' : username  }                          
+                          'username' : username,
+                          'sessionId' : sessionId  }                          
        self.response.write(template.render(template_values))
        
 application = webapp2.WSGIApplication([

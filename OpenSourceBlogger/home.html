@@ -8,7 +8,7 @@
 	<h1>Open Source Blogger</h1><hr>
 	{% if login %} 
 	    <p align = right >Welcome {{ username }} &nbsp;&nbsp;&nbsp;&nbsp;<a href={{ logout_url }} >LogOut</a><br></p>
- 		<a href="NewBlog.py"> Create New Blog</a>
+ 		<a href="NewBlog.py?sessionId={{ sessionId }}"> Create New Blog</a>
 	{% else %}
 		<a href={{ login_url }} > Login </a> to create a new Blog
 	{% endif %}
@@ -23,6 +23,7 @@
 			<option value='owner'>Owner</option> 
 		</select><br>		
 		<input type="hidden" name="page" value="1"/>
+		<input type="hidden" name="sessionId" value={{ sessionId }} />
 		<input type="submit" value="Search">	
 	</form>
 	

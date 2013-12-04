@@ -6,11 +6,11 @@
 </head>
 <body>
     <h1>Open Source Blogger</h1><hr>
-    {% if login %}
+ 	{% if login == 1 %}
     	<p align = right >Welcome {{ username }} &nbsp;&nbsp;&nbsp;&nbsp;<a href={{ logout_url }} >LogOut</a><br></p>
     	<h3>Create New Blog</h3>
 	    <form name = 'newBlog' action='InsertBlogToDataStore.py' >
-	    <input type=text name='owner' value={{ username }} />
+	    <input type=text name='owner' value={{ username }} ></input>
 	    Title goes here:
 	    <input type='text' name='title' width='50px'/><br><br>
 	    Contents go here:<br>
@@ -19,8 +19,11 @@
 	    <input type='text' name='tags'/><br><br>
 	    <input type='submit' value='Create Blog'>
 	    </form>
-    {% else %}
-    	<a href={{ login_url }} > Login </a> to create a new Blog
+	{% else %}
+		<a href={{ login_url }} > Login </a> to create a new Blog
 	{% endif %} 
+ 
+
+ 
 </body>
 </html>

@@ -10,6 +10,9 @@ handlers:
 
 - url: /Blogs.py.*
   script: Blogs.application
+
+- url: /UserLoggedIn.py.*
+  script: UserLoggedIn.application
   
 - url: /
   script: home.application

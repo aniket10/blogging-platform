@@ -1,7 +1,9 @@
 import webapp2
 import jinja2
 import os
+import urlparse
 from google.appengine.api import users 
+from UserLoggedin import UserLoggedIn
 
 class MainPage(webapp2.RequestHandler):
 
@@ -11,14 +13,19 @@ class MainPage(webapp2.RequestHandler):
                                                autoescape=True)
         template = JINJA_ENVIRONMENT.get_template('NewBlog.html')
         
-        user = users.get_current_user()
+        cur_url = self.request.url
+        parsed_url = urlparse.urlparse(cur_url)
+        session = urlparse.parse_qs(parsed_url.query)['sessionId']  
+        sessionId = int(session[0])
        
         login = 0
         login_url = ""
         username = ""
-        if user:
+                  
+        if sessionId != 0:
            login = 1
-           username = user.nickname()
+           user = UserLoggedIn.get_by_id(int(session[0]))
+           username = user.blogger.nickname()
         else: 
            login = 0
            login_url = users.create_login_url('/')
@@ -27,10 +34,11 @@ class MainPage(webapp2.RequestHandler):
         template_values = {'login' : login,
                           'login_url' : login_url,
                           'logout_url' : logout_url,
-                          'username' : username  }
-        
-        
-        self.response.write(template.render())
+                          'username' : username,
+                          'sessionId' : session,
+                            }
+                
+        self.response.write(template.render(template_values))
 
 application = webapp2.WSGIApplication([
     ('/NewBlog.*', MainPage)

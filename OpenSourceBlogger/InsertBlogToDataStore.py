@@ -17,8 +17,9 @@ class InsertBlogToDataStore(webapp2.RequestHandler):
        form_title = form['title'].value
        form_content = form['content'].value
        form_tags = form['tags'].value
-       form_blog_time = datetime.datetime.now().time()
-       form_owner = 'aniket'
+       form_create_time = datetime.datetime.now().time()
+       form_modify_time = datetime.datetime.now().time()
+       form_owner = form['owner'].value
        tags = form_tags.split(';')
        count_tags=len(tags)
        
@@ -30,7 +31,8 @@ class InsertBlogToDataStore(webapp2.RequestHandler):
        b = Blogs(owner = form_owner,
                  title = form_title, 
                  content = form_content,
-                 blog_time = form_blog_time,
+                 create_time = form_create_time,
+                 modify_time = form_modify_time,
                  tag1 = tags[0],
                  tag2 = tags[1],
                  tag3 = tags[2],

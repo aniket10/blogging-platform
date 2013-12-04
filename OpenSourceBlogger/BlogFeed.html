@@ -9,7 +9,7 @@
     <h1>Blogs by {{ blog_owner }} </h1>
 	{% for b,l in blogsnlikes %}
 	     <hr>
-	     <h3>{{ b.title }}</h3>
+	     <h3><a href=showCompleteBlog.py?blogid={{ b.key().id() }}>{{ b.title }}</a></h3>
 	     <h5> {{ b.blog_time }}</h5>	  
 	     {% if b.content|length <= 500 %}
 	         {{ b.content }}<br>
@@ -21,31 +21,31 @@
 	     {% endif %}
 	     Tags : 
 	     {% if b.tag1 != "" %}
-	     	<a href=/BlogFeed.py?query{{ b.tag1 }}&type=tags&page=1>{{ b.tag1 }}</a>
+	     	<a href=/BlogFeed.py?query={{ b.tag1 }}&type=tags&page=1>{{ b.tag1 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
 	     
 	     {% if b.tag2 != "" %}
 	     	|&nbsp;&nbsp;
-	     	<a href=/BlogFeed.py?query{{ b.tag2 }}&type=tags&page=1>{{ b.tag2 }}</a>
+	     	<a href=/BlogFeed.py?query={{ b.tag2 }}&type=tags&page=1>{{ b.tag2 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
 	     
 	     {% if b.tag3 != "" %}
 	     	|&nbsp;&nbsp;
-	     	<a href=/BlogFeed.py?query{{ b.tag3 }}&type=tags&page=1>{{ b.tag3 }}</a>
+	     	<a href=/BlogFeed.py?query={{ b.tag3 }}&type=tags&page=1>{{ b.tag3 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
 	     
 	     {% if b.tag4 != "" %}
 	     	|&nbsp;&nbsp;
-	     	<a href=/BlogFeed.py?query{{ b.tag4 }}&type=tags&page=1>{{ b.tag4 }}</a>
+	     	<a href=/BlogFeed.py?query={{ b.tag4 }}&type=tags&page=1>{{ b.tag4 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
 	     
 	     {% if b.tag5 != "" %}
 	     	|&nbsp;&nbsp;
-	     	<a href=/BlogFeed.py?query{{ b.tag5 }}&type=tags&page=1>{{ b.tag5 }}</a>
+	     	<a href=/BlogFeed.py?query={{ b.tag5 }}&type=tags&page=1>{{ b.tag5 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
 	     <br><br>

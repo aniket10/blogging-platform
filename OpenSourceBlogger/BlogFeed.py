@@ -30,11 +30,17 @@ class BlogFeed(webapp2.RequestHandler):
            blog_owner = query
            blogs = db.GqlQuery("SELECT * FROM Blogs WHERE owner = '"+blog_owner+"' ORDER BY blog_time DESC")
        else:
-           self.redirect('/', False, False, None, None)
+           all_blogs = db.GqlQuery('SELECT * from Blogs')
+           blogs = []
+           for b in all_blogs:
+               if query in [b.tag1,b.tag2,b.tag3,b.tag4,b.tag5]:
+                   blogs.append(b)
            
+           if len(blogs) == 0:
+               self.redirect('/', False, False, None, None)
        likes = []
        comments= []
-       
+             
 #       self.response.headers['Content-Type'] = 'text/plain'
 #       self.response.write('Hello, World!')
 
