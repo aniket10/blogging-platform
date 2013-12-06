@@ -62,7 +62,11 @@ handlers:
 - url: /InsertPageToDataStore.py.*
   script: InsertPageToDataStore.application
 
+- url: /logout.py.*
+  script: logout.application
 
+- url: /login.py.*
+  script: login.application
 libraries:
 - name: webapp2
   version: latest

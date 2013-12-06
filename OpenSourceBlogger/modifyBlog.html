@@ -8,7 +8,7 @@
     <h1>Open Source Blogger</h1><hr>
  	{% if login == 1 %}
     	<p align = right >Welcome {{ b.owner }} &nbsp;&nbsp;&nbsp;&nbsp;<a href={{ logout_url }} >LogOut</a><br></p>
-    	<h3>Modify Blog</h3>
+    	<h3>Modify Blog Post</h3>
 	    <form name = 'newBlog' action='UpdateBlogToDataStore.py' >
 	    <input type=text name='owner' value={{ b.owner }} ></input>
 	    <input type = hidden name = "blogid" value = {{ b.key().id() }} />
@@ -17,8 +17,30 @@
 	    Contents go here:<br>
 	    <textarea rows=15 cols=50 name='content'   >{{ b.content }}</textarea><br>
 	    <br>Enter tags seperated by ; (semi-colon):<br>
-	    <input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}};{{ b.tag4}};{{ b.tag5}}"/><br><br>
-	    <input type='submit' value='Create Blog'>
+	    {% if d.tag1 == "" %}
+	     	<input type='text' name='tags' value=""/><br><br>
+	     {% endif %}	    
+	    
+	    {% if d.tag1 != "" %}
+	     	<input type='text' name='tags' value="{{ b.tag1}}"/><br><br>
+	     {% endif %}
+	     
+	     {% if d.tag2 != "" %}
+	     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}}"/><br><br>
+	     {% endif %}
+	     
+	     {% if d.tag3 != "" %}
+	     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}}"/><br><br>
+	     {% endif %}
+	     
+	     {% if d.tag4 != "" %}
+	     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}};{{ b.tag4}}"/><br><br>
+	     {% endif %}
+	     
+	     {% if d.tag5 != "" %}
+	     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}};{{ b.tag4}};{{ b.tag5}}"/><br><br>
+	     {% endif %}
+	    <input type='submit' value='Modify Blog Post'>
 	    </form>
 	{% else %}
 		<a href={{ login_url }} > Login </a> to modify a new Blog

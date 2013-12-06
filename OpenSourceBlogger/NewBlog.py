@@ -37,7 +37,7 @@ class MainPage(webapp2.RequestHandler):
                           'login_url' : login_url,
                           'logout_url' : logout_url,
                           'username' : username,
-                          'sessionId' : session,
+                          'sessionId' : sessionId,
                           'parentPageId' : page_name
                             }
                 

@@ -6,6 +6,20 @@
 </head>
 <body>
 	 <h1>Open Source Blogger</h1><hr>
+	 {% if login == 1  %}
+		<form name = "login" action="logout.py">
+			<p align = right  >
+			Welcome {{ username }} &nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="hidden" name="sessionId" value="{{sessionId}}" />
+			<input type="submit" value="LogOut"/></p>
+		</form>
+	{% else %}
+			<form name = "login" action="login.py">
+			<p align = right  >
+			<input type="hidden" name="cur_url" value="{{ cur_url }}" />
+			<input type="submit" value="LogIn"/></p>
+		</form>
+	{% endif %}
 	 <h1>Blogs by {{ b.owner }}</h1><hr>
 	 <h3>{{ b.title }}</h3>
 	 <h5>{{ b.blog_time }}</h5>
@@ -13,23 +27,43 @@
 	 <br><hr>
 	 {{ b.thumbsup }} Thumbs-Up &nbsp;&nbsp;&nbsp;&nbsp;{{ b.thumbsdown }} Thumbs-Down &nbsp;&nbsp;&nbsp;&nbsp; {{ comment_count }} Comments
 	 <br>
-	 <a href=/addThumbsUp.py?blogid={{ b.key().id() }}&user='aniket'>Thumbs-Up</a>
-	 &nbsp;&nbsp;&nbsp;
-	 <a href=/addThumbsDown.py?blogid={{ b.key().id() }}&user='aniket'>Thumbs-Down</a>
+	 {% if login == 1%}
+		 <table>
+		     	<tr>
+		     		<td><form name="thumbsupform" action="/addThumbsUp.py" >
+			     			<input type="hidden" name="blogid" value="{{ b.key().id() }}" />
+			     			<input type="hidden" name="dest_url" value="{{ cur_url }}" />
+			     			<input type="hidden" name="sessionId" value="{{ sessionId }}" />
+			     			<input type="submit" value="Thumbs-Up" />
+		     		    </form>
+		     		</td>
+		     		<td><form name="thumbsdownform" action="/addThumbsDown.py" >
+			     			<input type="hidden" name="blogid" value="{{ b.key().id() }}" />
+			     			<input type="hidden" name="dest_url" value="{{ cur_url }}" />
+			     			<input type="hidden" name="sessionId" value="{{ sessionId }}" />
+			     			<input type="submit" value="Thumbs-Down" />
+		     		    </form>
+		     		</td>  		
+		     </table>
+	 {% else %}
+	 	Login to Rate the Blog Post
+	 {% endif %}	
 	 <hr><br>
 	 {% for c in comments %}
 	 	{{ c.owner }} wrote : <br>
 	 	{{ c.comment }}
 	 	<br><br>
 	 {% endfor %}
-	 Add Comment:
-	 <form name='new_comment' action="addComment.py">
-	 	<input type="text" name='user' value='aniket' /><br>
-	 	<input type="text" name='blogid' value={{ b.key().id() }} /><br>
-	 	<textarea name='comment'> </textarea>
-	 	<input type="submit" value="Add Comment" />
-	 </form>
-	 
-	 
+	 {% if login == 1 %}
+		 Add Comment:
+		 <form name='new_comment' action="addComment.py">
+		 	<input type="text" name='user' value='aniket' /><br>
+		 	<input type="text" name='blogid' value={{ b.key().id() }} /><br>
+		 	<textarea name='comment'> </textarea>
+		 	<input type="submit" value="Add Comment" />
+		 </form>
+	 {% else %}
+	 	Login to Comment
+	 {% endif %}
 </body>
 </html>

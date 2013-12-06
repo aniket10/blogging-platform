@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <html>
 <head>
 <meta charset="ISO-8859-1">
@@ -6,82 +7,123 @@
 </head>
 <body>
 	<h1>Open Source Blogger</h1><hr>
+	{% if login == 1  %}
+		<form name = "login" action="logout.py">
+			<p align = right  >
+			Welcome {{ username }} &nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="hidden" name="sessionId" value="{{sessionId}}" />
+			<input type="submit" value="LogOut"/></p>
+		</form>
+	{% else %}
+		<form name = "login" action="login.py">
+			<p align = right  >
+			<input type="hidden" name="cur_url" value="{{ cur_url }}" />
+			<input type="submit" value="LogIn"/></p>
+		</form>
+	{% endif %}
 	{% if query_type == 0 %}
-    	<h1>Blogs by {{ query }}</h1>     	
-    {% else  %}
-    	<h1>Blogs containing #{{ query }}</h1>
-    {% endif %}
-    {% if following == 0 %}
-    	<form name="follow" action="/AddFollow.py">
-    		<input type="text" name="type" value="{{query_type}}" />
-    		<input type="text" name="user" value="{{username}}" />
-    		<input type=text name = "url" value="{{ cur_url }}" />
-    		<input type=text name = "item" value="{{ query }}" />
-    		<input type="submit" value="FOLLOW {{ query }}" />
-    	</form>
+    	<h1>Posts by {{ query }}</h1>     	
+    {% elif query_type == 1  %}
+    	<h1>Posts containing #{{ query }}</h1>
     {% else %}
-    	<form name="follow"	>
-    		<input type="button" value="FOLLOWING" />
-    	</form>
+    	<h1>Posts from Blogs {{ query }}</h1>
+    {% endif %}
+    {% if login == 1 %}
+    	{% if following == 0 %}
+	    	<form name="follow" action="/AddFollow.py">
+	    		<input type="hidden" name="type" value="{{query_type}}" />
+	    		<input type="hidden" name="user" value="{{username}}" />
+	    		<input type="hidden" name = "url" value="{{ cur_url }}" />
+	    		<input type="hidden" name = "item" value="{{ query }}" />
+	    		<input type="submit" value="FOLLOW {{ query }}" />
+	    	</form>
+	    
+    	{% else %}
+    		<form name="follow"	>
+    			<input type="button" value="FOLLOWING" />
+    		</form>
+    	{% endif %}
     {% endif %}	
-	{% for b,l in blogsnlikes %}
+	{% for b,l,c in blogsnlikes %}
 	     <hr>
-	     <h3><a href=showCompleteBlog.py?blogid={{ b.key().id() }}>{{ b.title }}</a></h3>
+	     <h3><a href=showCompleteBlog.py?blogid={{ b.key().id() }}&sessionId={{sessionId}}>{{ b.title }}</a></h3>
 	     By {{ b.owner }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	     {% if username == b.owner %}
 	     	<a href=modifyBlog.py?blogid={{ b.key().id() }}&&sessionId={{ sessionId }}>Edit</a><br> 
 	     {% endif %}
-	     <h5> {{ b.blog_time }}</h5>	  
-	     {% if b.content|length <= 500 %}
-	         {{ b.content }}<br>
+	     <h5> {{ b.create_time }}</h5>	  
+	     {% if c|length <= 500 %}
+	         {{ c }}<br>
 	     {% else %}
-	         {{ b.content[:500] }}
+	         {{ c[:500] }}
 	         ... &nbsp;&nbsp;&nbsp;
 	         <a href=showCompleteBlog.py?blogid={{ b.key().id() }}&sessionId={{ sessionId }}>more</a>
 	         <br>
 	     {% endif %}
 	     Tags : 
 	     {% if b.tag1 != "" %}
-	     	<a href=/BlogFeed.py?query={{ b.tag1 }}&type=tags&page=1>{{ b.tag1 }}</a>
+	     	<a href=/BlogFeed.py?query={{ b.tag1 }}&type=tags&page=1&sessionId={{ sessionId }}>{{ b.tag1 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
 	     
 	     {% if b.tag2 != "" %}
 	     	|&nbsp;&nbsp;
-	     	<a href=/BlogFeed.py?query={{ b.tag2 }}&type=tags&page=1>{{ b.tag2 }}</a>
+	     	<a href=/BlogFeed.py?query={{ b.tag2 }}&type=tags&page=1&sessionId={{ sessionId }}>{{ b.tag2 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
 	     
 	     {% if b.tag3 != "" %}
 	     	|&nbsp;&nbsp;
-	     	<a href=/BlogFeed.py?query={{ b.tag3 }}&type=tags&page=1>{{ b.tag3 }}</a>
+	     	<a href=/BlogFeed.py?query={{ b.tag3 }}&type=tags&page=1&sessionId={{ sessionId }}>{{ b.tag3 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
 	     
 	     {% if b.tag4 != "" %}
 	     	|&nbsp;&nbsp;
-	     	<a href=/BlogFeed.py?query={{ b.tag4 }}&type=tags&page=1>{{ b.tag4 }}</a>
+	     	<a href=/BlogFeed.py?query={{ b.tag4 }}&type=tags&page=1&sessionId={{ sessionId }}>{{ b.tag4 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
 	     
 	     {% if b.tag5 != "" %}
 	     	|&nbsp;&nbsp;
-	     	<a href=/BlogFeed.py?query={{ b.tag5 }}&type=tags&page=1>{{ b.tag5 }}</a>
+	     	<a href=/BlogFeed.py?query={{ b.tag5 }}&type=tags&page=1&sessionId={{ sessionId }}>{{ b.tag5 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
 	     <br><br>
-	     {{ b.thumbsup }} Thumbs-Up &nbsp;&nbsp;&nbsp;&nbsp;{{ b.thumbsdown }} Thumbs-Down &nbsp;&nbsp;&nbsp;&nbsp;{{ l }} Comments
-	     <br><br>
-	     <a href=/addThumbsUp.py?blogid={{ b.key().id() }}&user='aniket'>Thumbs-Up</a>
-	     &nbsp;&nbsp;&nbsp;
-	     <a href=/addThumbsDown.py?blogid={{ b.key().id() }}&user='aniket'>Thumbs-Down</a>
-	     &nbsp;&nbsp;&nbsp;
-	     <a href=showCompleteBlog.py?blogid={{ b.key().id() }}>Comment</a>
-	     
-	{% endfor %}      
+	     {% if login == 1 %}
+	     	{{ b.thumbsup }} Thumbs-Up &nbsp;&nbsp;&nbsp;&nbsp;{{ b.thumbsdown }} Thumbs-Down &nbsp;&nbsp;&nbsp;&nbsp;{{ l }} Comments
+		     <br><br>
+		     <table>
+		     	<tr>
+		     		<td><form name="thumbsupform" action="/addThumbsUp.py" >
+			     			<input type="hidden" name="blogid" value="{{ b.key().id() }}" />
+			     			<input type="hidden" name="dest_url" value="{{ cur_url }}" />
+			     			<input type="hidden" name="sessionId" value="{{ sessionId }}" />
+			     			<input type="submit" value="Thumbs-Up" />
+		     		    </form>
+		     		</td>
+		     		<td><form name="thumbsdownform" action="/addThumbsDown.py" >
+			     			<input type="hidden" name="blogid" value="{{ b.key().id() }}" />
+			     			<input type="hidden" name="dest_url" value="{{ cur_url }}" />
+			     			<input type="hidden" name="sessionId" value="{{ sessionId }}" />
+			     			<input type="submit" value="Thumbs-Down" />
+		     		    </form>
+		     		</td>
+		     		<td><form name="commentform" action="showCompleteBlog.py" >
+			     			<input type="hidden" name="blogid" value="{{ b.key().id() }}" />
+			     			<input type="hidden" name="dest_url" value="{{ cur_url }}" />
+			     			<input type="hidden" name="sessionId" value="{{ sessionId }}" />
+			     			<input type="submit" value="Comment" />
+		     		    </form>
+		     		</td>	     		
+		     </table>
+		{% else %}
+			Login to Rate or Comment
+		{% endif %}
+		{% endfor %}      
 	<br><br>
 	{% if more == 1 %}
-		<a href = /BlogFeed.py?query={{ query }}&type={{ type }}&page={{ nextpage }}>Next Page</a>
+		<a href = /BlogFeed.py?query={{ query }}&type={{ type }}&page={{ nextpage }}&sessionId={{sessionId}}>Next Page</a>
 	{% endif %} 
 	 
 	</body></html>

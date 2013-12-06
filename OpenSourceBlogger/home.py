@@ -31,9 +31,19 @@ class home(webapp2.RequestHandler):
        if user:
            login = 1
            username = user.nickname()
-           u = UserLoggedIn(blogger = user)
-           u.put()
-           sessionId = str(u.key().id())
+           
+           dbquery = "SELECT * FROM UserLoggedIn WHERE blogger=:1",user
+           userEntry = db.GqlQuery("SELECT * FROM UserLoggedIn WHERE blogger=:1",user)
+           
+           entryCount = 0
+           for ue in userEntry:
+               sessionId= ue.key().id()
+               entryCount = entryCount + 1
+           
+           if entryCount == 0:
+               u = UserLoggedIn(blogger = user)
+               u.put()
+               sessionId = str(u.key().id())
            
            dbquery = "SELECT * FROM Follow WHERE user='"+username+"'"
            follow_list = db.GqlQuery(dbquery)
@@ -95,7 +105,7 @@ class home(webapp2.RequestHandler):
        else: 
            login = 0
            login_url = users.create_login_url('/')
-       logout_url = users.create_logout_url('/')
+       logout_url = "logout.py?sessionId="+str(sessionId)
                  
        dlc = zip(display_list,comments)
        userblogs = []
@@ -105,6 +115,8 @@ class home(webapp2.RequestHandler):
        ubcount = 0
        for ub in userblogs:
            ubcount = ubcount + 1
+           
+       cur_url = self.request.url
        
        template_values = {'login' : login,
                           'login_url' : login_url,
@@ -113,7 +125,8 @@ class home(webapp2.RequestHandler):
                           'sessionId' : sessionId,
                           'display_listnComments' : dlc,
                           'userblogs' : userblogs,
-                          'ubcount' : ubcount
+                          'ubcount' : ubcount,
+                          'cur_url' : cur_url
                            }                          
        self.response.write(template.render(template_values))
        

@@ -7,18 +7,23 @@
 <body>
     <h1>Open Source Blogger</h1><hr>
  	{% if login == 1 %}
-    	<p align = right >Welcome {{ username }} &nbsp;&nbsp;&nbsp;&nbsp;<a href={{ logout_url }} >LogOut</a><br></p>
-    	<h3>Create New Blog</h3>
+    	<form name = "login" action="logout.py">
+			<p align = right  >
+			Welcome {{ username }} &nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="hidden" name="sessionId" value={{sessionId}} />
+			<input type="submit" value="LogOut"/></p>
+		</form>
+    	<h3>Create New Blog Post</h3>
 	    <form name = 'newBlog' action='InsertBlogToDataStore.py' >
-	    <input type=text name='owner' value={{ username }} ></input>
-	    <input type=text name='parentPageId' value={{ parentPageId }} ></input>
+	    <input type="hidden" name='owner' value="{{ username }}" ></input>
+	    <input type="hidden" name='parentPageId' value="{{ parentPageId }}" ></input>
 	    Title goes here:
 	    <input type='text' name='title' width='50px'/><br><br>
 	    Contents go here:<br>
 	    <textarea rows=15 cols=50 name='content'   ></textarea><br>
 	    <br>Enter tags seperated by ; (semi-colon):<br>
 	    <input type='text' name='tags'/><br><br>
-	    <input type='submit' value='Create Blog'>
+	    <input type='submit' value='Create Blog Post'>
 	    </form>
 	{% else %}
 		<a href={{ login_url }} > Login </a> to create a new Blog

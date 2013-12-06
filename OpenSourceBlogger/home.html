@@ -7,12 +7,17 @@
 <body>
 	<h1>Open Source Blogger</h1><hr>
 	{% if login %} 
-	    <p align = right >Welcome {{ username }} &nbsp;&nbsp;&nbsp;&nbsp;<a href={{ logout_url }} >LogOut</a><br></p>
+	    <form name = "login" action="logout.py">
+			<p align = right  >
+			Welcome {{ username }} &nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="hidden" name="sessionId" value="{{sessionId}}" />
+			<input type="submit" value="LogOut"/></p>
+		</form>
  		<a href="/NewPage.py?sessionId={{ sessionId }}"> Create New Blog</a><br>
  		{% if ubcount > 0 %}
 	 		<form name="AddPost" action="/NewBlog.py" >
 	 		    Add Post to an existing Blog:
-	 			<input type = "text" name="sessionId" value= "{{sessionId}}" />
+	 			<input type = "hidden" name="sessionId" value= "{{sessionId}}" />
 	 			<select name="PageName">
 	 			   {% for ub in userblogs %}
 	 			     {{ ub.page_name }}
@@ -35,7 +40,8 @@
 		as
 		<select name="type">
 			<option value='tags'>Hash Tags</option>
-			<option value='owner'>Owner</option> 
+			<option value='owner'>Owner</option>
+			<option value='blog'>Blog Name</option> 
 		</select><br>		
 		<input type="hidden" name="page" value="1"/>
 		<input type="hidden" name="sessionId" value={{ sessionId }} />
@@ -60,41 +66,60 @@
 	     {% endif %}
 	     Tags : 
 	     {% if d.tag1 != "" %}
-	     	<a href=/BlogFeed.py?query={{ d.tag1 }}&type=tags&page=1>{{ d.tag1 }}</a>
+	     	<a href=/BlogFeed.py?query={{ d.tag1 }}&type=tags&page=1&sessionId={{ sessionId }}>{{ d.tag1 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
 	     
 	     {% if d.tag2 != "" %}
 	     	|&nbsp;&nbsp;
-	     	<a href=/BlogFeed.py?query={{ d.tag2 }}&type=tags&page=1>{{ d.tag2 }}</a>
+	     	<a href=/BlogFeed.py?query={{ d.tag2 }}&type=tags&page=1&sessionId={{ sessionId }}>{{ d.tag2 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
 	     
 	     {% if d.tag3 != "" %}
 	     	|&nbsp;&nbsp;
-	     	<a href=/BlogFeed.py?query={{ d.tag3 }}&type=tags&page=1>{{ d.tag3 }}</a>
+	     	<a href=/BlogFeed.py?query={{ d.tag3 }}&type=tags&page=1&sessionId={{ sessionId }}>{{ d.tag3 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
 	     
 	     {% if d.tag4 != "" %}
 	     	|&nbsp;&nbsp;
-	     	<a href=/BlogFeed.py?query={{ d.tag4 }}&type=tags&page=1>{{ d.tag4 }}</a>
+	     	<a href=/BlogFeed.py?query={{ d.tag4 }}&type=tags&page=1&sessionId={{ sessionId }}>{{ d.tag4 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
 	     
 	     {% if d.tag5 != "" %}
 	     	|&nbsp;&nbsp;
-	     	<a href=/BlogFeed.py?query={{ d.tag5 }}&type=tags&page=1>{{ d.tag5 }}</a>
+	     	<a href=/BlogFeed.py?query={{ d.tag5 }}&type=tags&page=1&sessionId={{ sessionId }}>{{ d.tag5 }}</a>
 	     	&nbsp;&nbsp;
 	     {% endif %}
 	     <br><br>
 	     {{ d.thumbsup }} Thumbs-Up &nbsp;&nbsp;&nbsp;&nbsp;{{ d.thumbsdown }} Thumbs-Down &nbsp;&nbsp;&nbsp;&nbsp;{{ c }} Comments
 	     <br><br>
-	     <a href=/addThumbsUp.py?blogid={{ d.key().id() }}&user='aniket'>Thumbs-Up</a>
-	     &nbsp;&nbsp;&nbsp;
-	     <a href=/addThumbsDown.py?blogid={{ d.key().id() }}&user='aniket'>Thumbs-Down</a>
-	     &nbsp;&nbsp;&nbsp;
-	     <a href=showCompleteBlog.py?blogid={{ d.key().id() }}>Comment</a>
+	     <table>
+	     	<tr>
+	     		<td><form name="thumbsupform" action="/addThumbsUp.py" >
+		     			<input type="hidden" name="blogid" value="{{ d.key().id() }}" />
+		     			<input type="hidden" name="dest_url" value="{{ cur_url }}" />
+		     			<input type="hidden" name="sessionId" value="{{ sessionId }}" />
+		     			<input type="submit" value="Thumbs-Up" />
+	     		    </form>
+	     		</td>
+	     		<td><form name="thumbsdownform" action="/addThumbsDown.py" >
+		     			<input type="hidden" name="blogid" value="{{ d.key().id() }}" />
+		     			<input type="hidden" name="dest_url" value="{{ cur_url }}" />
+		     			<input type="hidden" name="sessionId" value="{{ sessionId }}" />
+		     			<input type="submit" value="Thumbs-Down" />
+	     		    </form>
+	     		</td>
+	     		<td><form name="commentform" action="showCompleteBlog.py" >
+		     			<input type="hidden" name="blogid" value="{{ d.key().id() }}" />
+		     			<input type="hidden" name="dest_url" value="{{ cur_url }}" />
+		     			<input type="hidden" name="sessionId" value="{{ sessionId }}" />
+		     			<input type="submit" value="Comment" />
+	     		    </form>
+	     		</td>	     		
+	     </table>
 	     
 	{% endfor %}
 	

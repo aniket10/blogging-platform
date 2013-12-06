@@ -3,6 +3,7 @@ import cgi
 import jinja2
 import urlparse
 import os
+import re
 from Blogs import Blogs
 from Comments import Comments
 from UserLoggedin import UserLoggedIn
@@ -12,6 +13,7 @@ from google.appengine.ext import db
 class BlogFeed(webapp2.RequestHandler):
 
     def get(self):
+       print "Content-Type: text/html" 
        JINJA_ENVIRONMENT = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
                                                extensions=['jinja2.ext.autoescape'],
                                                autoescape=True)
@@ -28,7 +30,9 @@ class BlogFeed(webapp2.RequestHandler):
        type = type_name[0]
        sessionId = session_name[0]   
        blogs = []
+       parentId = []
        blog_owner = ''
+       content = []
               
        query_type = 0
        
@@ -37,10 +41,9 @@ class BlogFeed(webapp2.RequestHandler):
            blogs = db.GqlQuery("SELECT * FROM Blogs WHERE owner = '"+blog_owner+"' ORDER BY create_time DESC")
        
            query_type = 0
-       else:
-       
+       elif type == 'tags':
            query_type = 1
-           all_blogs = db.GqlQuery('SELECT * from Blogs')
+           all_blogs = db.GqlQuery('SELECT * from Blogs ORDER BY create_time DESC')
            blogs = []
            for b in all_blogs:
                if query in [b.tag1,b.tag2,b.tag3,b.tag4,b.tag5]:
@@ -48,6 +51,19 @@ class BlogFeed(webapp2.RequestHandler):
            
            if len(blogs) == 0:
                self.redirect('/', False, False, None, None)
+       else:
+            query_type = 2
+            parent = db.GqlQuery("SELECT * FROM Pages WHERE page_name='"+query+"'")
+            parentId = []
+            for p in parent:
+                parentId.append(p.key().id())
+            
+            all_blogs = db.GqlQuery("SELECT * FROM Blogs ORDER BY create_time DESC")
+            blogs = []
+            
+            for b in all_blogs:
+                if b.ParentBlogId in parentId:
+                    blogs.append(b)
        likes = []
        comments= []
                   
@@ -57,8 +73,16 @@ class BlogFeed(webapp2.RequestHandler):
        per_page = 2
        subset_blogs = []
        blogsnlikes = []
-       user = UserLoggedIn.get_by_id(int(sessionId))
-       username = user.blogger.nickname()
+       login = 0
+       user = ""
+       username = ""
+       try:
+            user = UserLoggedIn.get_by_id(int(sessionId))
+            username = user.blogger.nickname()
+            login = 1
+       except db.BadKeyError:
+            login = 0
+           
        following = 0
        
        dbquery = "Select * from Follow where item='"+query+"' AND user='"+username+"' AND type="+str(query_type)
@@ -88,12 +112,18 @@ class BlogFeed(webapp2.RequestHandler):
            likes.append(str(count_likes))
            subset_blogs.append(b)
 #           self.response.write(b.title)
+           text_content = b.content
+           self.response.write(text_content)
+           r = re.compile(r"(http://[^ ]+)")
+           link_content = r.sub(r'<a href="\1">\1</a>', text_content)
+           self.response.write(link_content)
+           content.append(link_content)  
            if selected == per_page:
        #        if count != count_blogs:
                more = 1
                break    
 #       self.response.write(likes)    
-       blogsnlikes = zip(subset_blogs,likes)
+       blogsnlikes = zip(subset_blogs,likes,content)
 #       self.response.write(blogsnlikes)
        template_values = {
 #                          'blogs': subset_blogs,
@@ -107,7 +137,9 @@ class BlogFeed(webapp2.RequestHandler):
                           'username' : username,
                           'sessionId' :sessionId,
                           'cur_url' : cur_url,
-                          'following' : following
+                          'following' : following,
+                          'parentId' : parentId,
+                          'login' : login
 #                          'likes':likes
                           }
               
