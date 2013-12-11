@@ -17,27 +17,27 @@
 	    Contents go here:<br>
 	    <textarea rows=15 cols=50 name='content'   >{{ b.content }}</textarea><br>
 	    <br>Enter tags seperated by ; (semi-colon):<br>
-	    {% if d.tag1 == "" %}
+	    {% if b.tag1 == "" %}
 	     	<input type='text' name='tags' value=""/><br><br>
 	     {% endif %}	    
 	    
-	    {% if d.tag1 != "" %}
+	    {% if b.tag1 != "" %}
 	     	<input type='text' name='tags' value="{{ b.tag1}}"/><br><br>
 	     {% endif %}
 	     
-	     {% if d.tag2 != "" %}
+	     {% if b.tag2 != "" %}
 	     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}}"/><br><br>
 	     {% endif %}
 	     
-	     {% if d.tag3 != "" %}
+	     {% if b.tag3 != "" %}
 	     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}}"/><br><br>
 	     {% endif %}
 	     
-	     {% if d.tag4 != "" %}
+	     {% if b.tag4 != "" %}
 	     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}};{{ b.tag4}}"/><br><br>
 	     {% endif %}
 	     
-	     {% if d.tag5 != "" %}
+	     {% if b.tag5 != "" %}
 	     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}};{{ b.tag4}};{{ b.tag5}}"/><br><br>
 	     {% endif %}
 	    <input type='submit' value='Modify Blog Post'>

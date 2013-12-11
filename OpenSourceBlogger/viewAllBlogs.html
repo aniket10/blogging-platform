@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>{{ name }}</title>
+</head>
+<body>
+	 <h1>Open Source Blogger</h1><hr>
+	 {% if login == 1  %}
+		<form name = "login" action="logout.py">
+			<p align = right  >
+			Welcome {{ username }} &nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="hidden" name="sessionId" value="{{sessionId}}" />
+			<input type="submit" value="LogOut"/></p>
+		</form>
+	{% else %}
+			<form name = "login" action="login.py">
+			<p align = right  >
+			<input type="hidden" name="cur_url" value="{{ cur_url }}" />
+			<input type="submit" value="LogIn"/></p>
+		</form>
+	{% endif %}
+	 <table align=center><tr><td>
+	 <h1>Blogs matching {{ name }}</h1><hr>
+	 <form name="matching_blogs" action="BlogFeed.py">
+	 	 <input type="hidden" name="sessionId" value="{{sessionId}}" />
+		 <input type="hidden" name="page" value="1" />
+		 <input type="hidden" name="type" value="sblog" /><br>
+		 {% for b in blogs_list  %}
+		 	<input type="radio" name="query" value="{{ b.key().id() }}">{{ b.page_name }} by {{b.owner}} <br>
+		 {% endfor %}	
+		 <input type="submit" name="submit" value="View Blog" /> 
+	 </form>
+	 </td></tr></table>
+</body>
+</html>

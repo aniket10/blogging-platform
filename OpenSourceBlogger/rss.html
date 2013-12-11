@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>RSS Feed</title>
+</head>
+<body>
+	 <h1>Open Source Blogger</h1><hr>
+	 {% if login == 1  %}
+		<form name = "login" action="logout.py">
+			<p align = right  >
+			Welcome {{ username }} &nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="hidden" name="sessionId" value="{{sessionId}}" />
+			<input type="submit" value="LogOut"/></p>
+		</form>
+	{% else %}
+			<form name = "login" action="login.py">
+			<p align = right  >
+			<input type="hidden" name="cur_url" value="{{ cur_url }}" />
+			<input type="submit" value="LogIn"/></p>
+		</form>
+	{% endif %}
+	{{ blog_base }}<br>
+	
+	{% for i,t,c,t1,t2,t3,t4,t5 in bloginxml %}
+		&nbsp;&nbsp;&nbsp;&nbsp;{{ post_base }}<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ i }}<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ t }}<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ c }}<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ t1 }}<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ t2 }}<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ t3 }}<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ t4 }}<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ t5 }}<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;{{ post_end }}<br>
+	{% endfor %}
+	{{ blog_end }}
+		
+</body>
+</html>

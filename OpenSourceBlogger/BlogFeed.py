@@ -8,6 +8,7 @@ from Blogs import Blogs
 from Comments import Comments
 from UserLoggedin import UserLoggedIn
 from Follow import Follow
+from Pages import Pages
 from google.appengine.ext import db
 
 class BlogFeed(webapp2.RequestHandler):
@@ -16,7 +17,7 @@ class BlogFeed(webapp2.RequestHandler):
        print "Content-Type: text/html" 
        JINJA_ENVIRONMENT = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
                                                extensions=['jinja2.ext.autoescape'],
-                                               autoescape=True)
+                                               autoescape=False)
        template = JINJA_ENVIRONMENT.get_template('BlogFeed.html')
        
        cur_url = self.request.url
@@ -33,6 +34,7 @@ class BlogFeed(webapp2.RequestHandler):
        parentId = []
        blog_owner = ''
        content = []
+       blog_name = ""
               
        query_type = 0
        
@@ -51,19 +53,14 @@ class BlogFeed(webapp2.RequestHandler):
            
            if len(blogs) == 0:
                self.redirect('/', False, False, None, None)
-       else:
-            query_type = 2
-            parent = db.GqlQuery("SELECT * FROM Pages WHERE page_name='"+query+"'")
-            parentId = []
-            for p in parent:
-                parentId.append(p.key().id())
+       elif type == 'blog':
+            self.redirect('viewAllBlogs.py?name='+query+'&sessionId='+sessionId, False, False, None, None) 
+       elif type == 'sblog':
+            query_type = 2            
+            blogs = db.GqlQuery("SELECT * FROM Blogs WHERE ParentBlogId="+query+" ORDER BY create_time DESC")
+            blogpage = Pages.get_by_id(int(query))
+            blog_name = blogpage.page_name
             
-            all_blogs = db.GqlQuery("SELECT * FROM Blogs ORDER BY create_time DESC")
-            blogs = []
-            
-            for b in all_blogs:
-                if b.ParentBlogId in parentId:
-                    blogs.append(b)
        likes = []
        comments= []
                   
@@ -114,16 +111,16 @@ class BlogFeed(webapp2.RequestHandler):
 #           self.response.write(b.title)
            text_content = b.content
            self.response.write(text_content)
-           r = re.compile(r"(http://[^ ]+)")
-           link_content = r.sub(r'<a href="\1">\1</a>', text_content)
-           self.response.write(link_content)
-           content.append(link_content)  
+#           r = re.compile(r"(http://[^ ]+)")
+#           link_content = r.sub(r'<a href="\1">\1</a>', text_content)
+#           self.response.write(link_content)
+#           content.append(link_content)  
            if selected == per_page:
        #        if count != count_blogs:
                more = 1
                break    
 #       self.response.write(likes)    
-       blogsnlikes = zip(subset_blogs,likes,content)
+       blogsnlikes = zip(subset_blogs,likes)
 #       self.response.write(blogsnlikes)
        template_values = {
 #                          'blogs': subset_blogs,
@@ -139,7 +136,8 @@ class BlogFeed(webapp2.RequestHandler):
                           'cur_url' : cur_url,
                           'following' : following,
                           'parentId' : parentId,
-                          'login' : login
+                          'login' : login,
+                          'blogname' : blog_name
 #                          'likes':likes
                           }
               

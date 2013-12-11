@@ -1,5 +1,6 @@
 import cgi  
 import webapp2
+import re
 from datetime import datetime
 from Blogs import Blogs
 
@@ -20,6 +21,16 @@ class InsertBlogToDataStore(webapp2.RequestHandler):
        form_owner = form['owner'].value
        tags = form_tags.split(';')
        count_tags=len(tags)
+              
+       newcntnt = re.sub(r'(https?://[^\s]+)',r"<a href='\1'>\1</a>",form_content)
+       #newcntnt = re.sub(r'(https?://[^\s]+\.(jpg|gif|png)$)',r"<img src='\1' width='42'>",cntnt)
+       blgcntnt = re.sub(r'(<a href=\(\'[^\']+\.(jpg|gif|png)$\)\'>\1</a>)',r"<img src=\1 width='42'>",newcntnt)
+
+       #r = re.compile(r"(http://[^ ]+)")
+       #link_content = r.sub(r'<a href="\1">\1</a>', image_content)
+       
+       #r = re.compile(r"(<a href=\"http://[^ ]+(jpeg|gif|png)$\")")
+       #image_content = r.sub(r'<img src="\1"></img>', form_content)          
        
        while count_tags <=5:
             tags.append("")
@@ -29,7 +40,7 @@ class InsertBlogToDataStore(webapp2.RequestHandler):
        b = Blogs(ParentBlogId = int(form_parent),
                  owner = form_owner,
                  title = form_title, 
-                 content = form_content,
+                 content = blgcntnt,
                  create_time = form_create_time,
                  modify_time = form_modify_time,
                  tag1 = tags[0],

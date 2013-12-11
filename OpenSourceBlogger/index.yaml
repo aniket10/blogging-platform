@@ -12,6 +12,12 @@ indexes:
 
 - kind: Blogs
   properties:
+  - name: ParentBlogId
+  - name: create_time
+    direction: desc
+
+- kind: Blogs
+  properties:
   - name: owner
   - name: blog_time
 

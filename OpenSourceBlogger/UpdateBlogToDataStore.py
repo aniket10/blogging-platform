@@ -1,6 +1,7 @@
 import cgi  
 import webapp2
 import urlparse
+import re
 from datetime import datetime
 from google.appengine.ext import db
 from Blogs import Blogs
@@ -22,13 +23,17 @@ class UpdateBlogToDataStore(webapp2.RequestHandler):
        tags = form_tags.split(';')
        count_tags=len(tags)
        
+       newcntnt = re.sub(r'(https?://[^\s]+)',r"<a href='\1'>\1</a>",form_content)
+        #newcntnt = re.sub(r'(https?://[^\s]+\.(jpg|gif|png)$)',r"<img src='\1' width='42'>",cntnt)
+       blgcntnt = re.sub(r'<a href=\'([^\']+\.(jpg|gif|png)$)\'>\1</a>',r"<img src='\1' width='42'>",newcntnt)
+       
        while count_tags <=5:
             tags.append("")
             count_tags = count_tags + 1
        
           
        b.title = form_title 
-       b.content = form_content
+       b.content = newcntnt
        b.modify_time = form_modify_time
        b.tag1 = tags[0]
        b.tag2 = tags[1]

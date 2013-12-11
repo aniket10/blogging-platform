@@ -8,6 +8,9 @@ handlers:
 - url: /Comments.py.*
   script: Comments.application
 
+- url: /Images.py.*
+  script: Images.application
+
 - url: /Blogs.py.*
   script: Blogs.application
 
@@ -67,6 +70,13 @@ handlers:
 
 - url: /login.py.*
   script: login.application
+  
+- url: /viewAllBlogs.py.*
+  script: viewAllBlogs.application
+
+- url: /rss.py.*
+  script: rss.application
+    
 libraries:
 - name: webapp2
   version: latest
