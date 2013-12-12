@@ -2,19 +2,20 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>OSBlogger</title>
 </head>
-<body>
-	<h1>Open Source Blogger</h1><hr>
-	
+<body bgcolor="#003366">
+    <font color="#FFFFFF" >
+	<h1 >Open Source Blogger</h1><hr>
+	</font>
 	{% if login %} 
-	    <form name = "login" action="logout.py">
+	    <form name = "login" action="logout.py" >
 			<p align = right  >
-			Welcome {{ username }} &nbsp;&nbsp;&nbsp;&nbsp;
+			<font color="#FFFFFF" >Welcome {{ username }} </font>&nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="hidden" name="sessionId" value="{{sessionId}}" />
 			<input type="submit" value="LogOut"/></p>
 		</form>
- 		<table align=center width="50%">
+ 		<table align=center width="50%" bgcolor="#FFFFFF" cellpadding = "20">
  		<tr><td align=center>
 	 		<a href="/NewPage.py?sessionId={{ sessionId }}"> Create New Blog</a><br>
 	 		{% if ubcount > 0 %}
@@ -33,6 +34,8 @@
 	 			You Donot Own any Blog Page. Create a Blog Page First.
 	 		{% endif %}
 		{% else %}
+		    <table align=center width="50%" bgcolor="#FFFFFF">
+ 		     <tr><td align=center>
 			<a href={{ login_url }} > Login </a> to create a new Blog or Add a post to your Blog
 		{% endif %}
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -57,15 +60,16 @@
 	    {% if login == 1 %}
 		<h3>Aggregated Blog Feed</h3>
 		{% endif %}
-			{% for d,c in display_listnComments %}
+		{% for d,c,cn in display_listnComments %}
 		     <hr>
 		     <h3><a href=showCompleteBlog.py?blogid={{ d.key().id() }}&sessionId={{sessionId}}>{{ d.title }}</a></h3>
 		     By {{ d.owner }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		     <h5> {{ d.blog_time }}</h5>	  
-		     {% if d.content|length <= 500 %}
-		         {{ d.content }}<br>
+		     <h5> Created on:{{ d.create_time }}</h5>
+		     <h5> Last Updated on:{{ d.modify_time }}</h5>	  
+		     {% if cn|length <= 500 %}
+		         {{ cn }}<br>
 		     {% else %}
-		         {{ d.content[:500] }}
+		         {{ cn[:500] }}
 		         ... &nbsp;&nbsp;&nbsp;
 		         <a href=showCompleteBlog.py?blogid={{ d.key().id() }}&sessionId={{ sessionId }}>more</a>
 		         <br>

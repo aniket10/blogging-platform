@@ -3,6 +3,7 @@ import cgi
 import urlparse
 import jinja2
 import os
+import re
 from Blogs import Blogs
 from google.appengine.ext import db
 from google.appengine.api import users
@@ -16,7 +17,7 @@ class home(webapp2.RequestHandler):
     def get(self):
        JINJA_ENVIRONMENT = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
                                                extensions=['jinja2.ext.autoescape'],
-                                               autoescape=True)
+                                               autoescape=False)
        template = JINJA_ENVIRONMENT.get_template('home.html') 
     
        user = users.get_current_user()
@@ -68,6 +69,7 @@ class home(webapp2.RequestHandler):
            blog_list = db.GqlQuery(dbquery)
            
            selected_count = 0
+           content = []
            
            self.response.write(blogs)
            
@@ -109,7 +111,9 @@ class home(webapp2.RequestHandler):
                        count_comment = count_comment + 1
 #           self.response.write(count_likes) 
                    comments.append(str(count_comment))
-                   
+                   r = re.compile(r"(https?://[^ ]+)")
+                   link_content = r.sub(r'<a href="\1">\1</a>', b.content)
+                   content.append(link_content)
                    if selected_count == 100:
                        break
                    
@@ -119,7 +123,7 @@ class home(webapp2.RequestHandler):
            login_url = users.create_login_url('/')
        logout_url = "logout.py?sessionId="+str(sessionId)
                  
-       dlc = zip(display_list,comments)
+       dlc = zip(display_list,comments,content)
        userblogs = []
        dbquery = "SELECT * FROM Pages WHERE owner = '"+username+"'";
        userblogs = db.GqlQuery(dbquery)

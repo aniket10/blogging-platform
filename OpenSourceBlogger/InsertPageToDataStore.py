@@ -10,7 +10,7 @@ class InsertPageToDataStore(webapp2.RequestHandler):
        form = cgi.FieldStorage()
        
        form_title = form['title'].value
-       form_create_time = datetime.now().time()
+       form_create_time = datetime.now()
        form_owner = form['owner'].value
     
        p = Pages(owner = form_owner,

@@ -4,12 +4,14 @@
 <meta charset="ISO-8859-1">
 <title>{{ name }}</title>
 </head>
-<body>
-	 <h1>Open Source Blogger</h1><hr>
+<body bgcolor="#003366">
+	 <font color="#FFFFFF" >
+	<h1 >Open Source Blogger</h1><hr>
+	</font>
 	 {% if login == 1  %}
 		<form name = "login" action="logout.py">
 			<p align = right  >
-			Welcome {{ username }} &nbsp;&nbsp;&nbsp;&nbsp;
+			<font color="#FFFFFF">Welcome {{ username }}</font> &nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="hidden" name="sessionId" value="{{sessionId}}" />
 			<input type="submit" value="LogOut"/></p>
 		</form>
@@ -20,7 +22,7 @@
 			<input type="submit" value="LogIn"/></p>
 		</form>
 	{% endif %}
-	 <table align=center><tr><td>
+	 <table align=center width="50%" bgcolor="#FFFFFF" cellpadding = "20"><tr><td>
 	 <h1>Blogs matching {{ name }}</h1><hr>
 	 <form name="matching_blogs" action="BlogFeed.py">
 	 	 <input type="hidden" name="sessionId" value="{{sessionId}}" />

@@ -63,11 +63,12 @@ class BlogFeed(webapp2.RequestHandler):
             
        likes = []
        comments= []
+       tags = []
                   
        more = 0
        count = -1
        selected = 0
-       per_page = 2
+       per_page = 10
        subset_blogs = []
        blogsnlikes = []
        login = 0
@@ -111,16 +112,33 @@ class BlogFeed(webapp2.RequestHandler):
 #           self.response.write(b.title)
            text_content = b.content
            self.response.write(text_content)
-#           r = re.compile(r"(http://[^ ]+)")
-#           link_content = r.sub(r'<a href="\1">\1</a>', text_content)
+           
+           if b.tag1 not in tags:
+               tags.append(b.tag1)
+           
+           if b.tag2 not in tags:
+               tags.append(b.tag2)
+               
+           if b.tag3 not in tags:
+               tags.append(b.tag3)
+               
+           if b.tag4 not in tags:
+               tags.append(b.tag4)
+               
+           if b.tag5 not in tags:
+               tags.append(b.tag5) 
+           
+           
+           r = re.compile(r"(https?://[^ ]+)")
+           link_content = r.sub(r'<a href="\1">\1</a>', text_content)
 #           self.response.write(link_content)
-#           content.append(link_content)  
+           content.append(link_content)  
            if selected == per_page:
        #        if count != count_blogs:
                more = 1
                break    
 #       self.response.write(likes)    
-       blogsnlikes = zip(subset_blogs,likes)
+       blogsnlikes = zip(subset_blogs,likes,content)
 #       self.response.write(blogsnlikes)
        template_values = {
 #                          'blogs': subset_blogs,
@@ -137,7 +155,8 @@ class BlogFeed(webapp2.RequestHandler):
                           'following' : following,
                           'parentId' : parentId,
                           'login' : login,
-                          'blogname' : blog_name
+                          'blogname' : blog_name,
+                          'tags' : tags
 #                          'likes':likes
                           }
               

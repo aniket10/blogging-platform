@@ -4,46 +4,58 @@
 <meta charset="ISO-8859-1">
 <title>New Blog</title>
 </head>
-<body>
-    <h1>Open Source Blogger</h1><hr>
+<body bgcolor="#003366">
+    <font color="#FFFFFF" >
+	<h1 >Open Source Blogger</h1><hr>
+	</font>
  	{% if login == 1 %}
-    	<p align = right >Welcome {{ b.owner }} &nbsp;&nbsp;&nbsp;&nbsp;<a href={{ logout_url }} >LogOut</a><br></p>
-    	<h3>Modify Blog Post</h3>
-	    <form name = 'newBlog' action='UpdateBlogToDataStore.py' >
-	    <input type=text name='owner' value={{ b.owner }} ></input>
-	    <input type = hidden name = "blogid" value = {{ b.key().id() }} />
-	    Title goes here:
-	    <input type='text' name='title' width='50px' value="{{ b.title }}"/><br><br>
-	    Contents go here:<br>
-	    <textarea rows=15 cols=50 name='content'   >{{ b.content }}</textarea><br>
-	    <br>Enter tags seperated by ; (semi-colon):<br>
-	    {% if b.tag1 == "" %}
-	     	<input type='text' name='tags' value=""/><br><br>
-	     {% endif %}	    
-	    
-	    {% if b.tag1 != "" %}
-	     	<input type='text' name='tags' value="{{ b.tag1}}"/><br><br>
-	     {% endif %}
-	     
-	     {% if b.tag2 != "" %}
-	     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}}"/><br><br>
-	     {% endif %}
-	     
-	     {% if b.tag3 != "" %}
-	     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}}"/><br><br>
-	     {% endif %}
-	     
-	     {% if b.tag4 != "" %}
-	     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}};{{ b.tag4}}"/><br><br>
-	     {% endif %}
-	     
-	     {% if b.tag5 != "" %}
-	     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}};{{ b.tag4}};{{ b.tag5}}"/><br><br>
-	     {% endif %}
-	    <input type='submit' value='Modify Blog Post'>
-	    </form>
+    	<form name = "login" action="logout.py" >
+			<p align = right  >
+			<font color="#FFFFFF" >Welcome {{ b.owner }} </font>&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="hidden" name="sessionId" value="{{sessionId}}" />
+			<input type="submit" value="LogOut"/></p>
+		</form>
+    	
+    	<br>
+    	<table align=center width="50%" bgcolor="#FFFFFF" cellpadding = "20">
+    	<tr><td>
+	    	<h3>Modify Blog Post</h3>
+		    <form name = 'newBlog' action='UpdateBlogToDataStore.py' >
+		    <input type=hidden name='owner' value={{ b.owner }} ></input>
+		    <input type = hidden name = "blogid" value = {{ b.key().id() }} />
+		    Title goes here:
+		    <input type='text' name='title' width='50px' value="{{ b.title }}"/><br><br>
+		    Contents go here:<br>
+		    <textarea rows=15 cols=50 name='content'   >{{ b.content }}</textarea><br>
+		    <br>Enter tags seperated by ; (semi-colon):<br> 
+		    
+		    {% if b.tag1 != "" and b.tag2 == ""%}
+		     	<input type='text' name='tags' value="{{ b.tag1}}"/><br><br>
+		     {% endif %}
+		     
+		     {% if b.tag2 != "" and b.tag3 == "" %}
+		     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}}"/><br><br>
+		     {% endif %}
+		     
+		     {% if b.tag3 != "" and b.tag4 == "" %}
+		     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}}"/><br><br>
+		     {% endif %}
+		     
+		     {% if b.tag4 != "" and b.tag5 == "" %}
+		     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}};{{ b.tag4}}"/><br><br>
+		     {% endif %}
+		     
+		     {% if b.tag5 != "" %}
+		     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}};{{ b.tag4}};{{ b.tag5}}"/><br><br>
+		     {% endif %}
+		    <input type='submit' value='Modify Blog Post'>
+		    </form>
+		 </td></tr></table>   
 	{% else %}
+		<table align=center width="50%" bgcolor="#FFFFFF" cellpadding = "20">
+		<tr><td>
 		<a href={{ login_url }} > Login </a> to modify a new Blog
+		</td></tr></table>
 	{% endif %} 
  
 

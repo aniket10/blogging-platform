@@ -3,6 +3,7 @@ import cgi
 import urlparse
 import jinja2
 import os
+import re
 from Blogs import Blogs
 from Comments import Comments
 from UserLoggedin import UserLoggedIn
@@ -13,7 +14,7 @@ class showCompleteBlog(webapp2.RequestHandler):
     def get(self):
        JINJA_ENVIRONMENT = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
                                                extensions=['jinja2.ext.autoescape'],
-                                               autoescape=True)
+                                               autoescape=False)
        template = JINJA_ENVIRONMENT.get_template('showCompleteBlog.html') 
        
        cur_url = self.request.url
@@ -44,13 +45,16 @@ class showCompleteBlog(webapp2.RequestHandler):
        for c in comments_list:
            count_comments = count_comments + 1
        
+       r = re.compile(r"(https?://[^ ]+)")
+       link_content = r.sub(r'<a href="\1">\1</a>', b.content)
        template_values = {'comments':comments_list,
                           'b': b,
                           'comment_count':count_comments,
                           'login' : login,
                           'cur_url' : cur_url,
                           'username' : username,
-                          'sessionId' : sessionId
+                          'sessionId' : sessionId,
+                          'content' : link_content
                           }
        
        self.response.write(template.render(template_values))

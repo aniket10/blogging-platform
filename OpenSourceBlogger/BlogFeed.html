@@ -5,12 +5,14 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
-<body>
-	<h1>Open Source Blogger</h1><hr>
+<body bgcolor="#003366">
+	<font color="#FFFFFF" >
+	<h1 >Open Source Blogger</h1><hr>
+	</font>
 	{% if login == 1  %}
 		<form name = "login" action="logout.py">
 			<p align = right  >
-			Welcome {{ username }} &nbsp;&nbsp;&nbsp;&nbsp;
+			<font color="#FFFFFF">Welcome {{ username }}</font> &nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="hidden" name="sessionId" value="{{sessionId}}" />
 			<input type="submit" value="LogOut"/></p>
 		</form>
@@ -21,7 +23,7 @@
 			<input type="submit" value="LogIn"/></p>
 		</form>
 	{% endif %}
-	<table align=center width="50%">
+	<table align=center width="50%" bgcolor="#FFFFFF" cellpadding = "20">
 	<tr><td>
 		{% if query_type == 0 %}
 	    	<h1>Posts by {{ query }}</h1>     	
@@ -29,8 +31,13 @@
 	    	<h1>Posts containing #{{ query }}</h1>
 	    {% else %}
 	    	<h1>Posts from Blog {{ blogname }}</h1>
-	    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	    	<a href=/rss.py?blogId={{ query}}&sessionId={{sessionId}}>RSS</a>
+	    	Get the  
+	    	<a href=/rss.py?blogId={{ query}}&sessionId={{sessionId}}>RSS</a> for the blog<br>
+	    	Other Tags in the Blog: 
+	    	{% for t in tags %}
+	    		<a href=/BlogFeed.py?query={{ t }}&type=tags&page=1&sessionId={{ sessionId }}>{{ t }}</a>&nbsp;&nbsp;&nbsp; |
+	    	{% endfor %}
+	    	<br>
 	    {% endif %}
 	    {% if login == 1 %}
 	    	{% if following == 0 %}
@@ -39,7 +46,11 @@
 		    		<input type="hidden" name="user" value="{{username}}" />
 		    		<input type="hidden" name = "url" value="{{ cur_url }}" />
 		    		<input type="hidden" name = "item" value="{{ query }}" />
-		    		<input type="submit" value="FOLLOW {{ query }}" />
+		    		{% if query_type == 2 %}
+		    			<input type="submit" value="FOLLOW {{ blogname }}" />
+		    		{% else %}
+		    			<input type="submit" value="FOLLOW {{ query }}" />
+		    		{% endif %}
 		    	</form>
 		    
 	    	{% else %}
@@ -48,18 +59,19 @@
 	    		</form>
 	    	{% endif %}
 	    {% endif %}	
-		{% for b,l in blogsnlikes %}
+		{% for b,l,c in blogsnlikes %}
 		     <hr>
 		     <h3><a href=showCompleteBlog.py?blogid={{ b.key().id() }}&sessionId={{sessionId}}>{{ b.title }}</a></h3>
 		     By {{ b.owner }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		     {% if username == b.owner %}
 		     	<a href=modifyBlog.py?blogid={{ b.key().id() }}&&sessionId={{ sessionId }}>Edit</a><br> 
 		     {% endif %}
-		     <h5> {{ b.create_time }}</h5>	  
-		     {% if b.content|length <= 500 %}
-		         {{ b.content }}<br>
+		     <h5> Created on:{{ b.create_time }}</h5>
+		     <h5> Last Updated on:{{ b.modify_time }}</h5>	  
+		     {% if c|length <= 500 %}
+		         {{ c }}<br>
 		     {% else %}
-		         {{ b.content[:500] }}
+		         {{ c[:500] }}
 		         ... &nbsp;&nbsp;&nbsp;
 		         <a href=showCompleteBlog.py?blogid={{ b.key().id() }}&sessionId={{ sessionId }}>more</a>
 		         <br>
