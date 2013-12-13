@@ -28,6 +28,7 @@ class home(webapp2.RequestHandler):
        sessionId = 0
        display_list = []
        comments = []
+       content = []
               
        if user:
            login = 1
@@ -111,7 +112,7 @@ class home(webapp2.RequestHandler):
                        count_comment = count_comment + 1
 #           self.response.write(count_likes) 
                    comments.append(str(count_comment))
-                   r = re.compile(r"(https?://[^ ]+)")
+                   r = re.compile(r"([^(<img src=)].https?://[^ ]+)")
                    link_content = r.sub(r'<a href="\1">\1</a>', b.content)
                    content.append(link_content)
                    if selected_count == 100:

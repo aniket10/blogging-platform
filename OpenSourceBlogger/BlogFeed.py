@@ -129,7 +129,8 @@ class BlogFeed(webapp2.RequestHandler):
                tags.append(b.tag5) 
            
            
-           r = re.compile(r"(https?://[^ ]+)")
+           
+           r = re.compile(r"([^(<img src=)]https?://[^ ]+)")
            link_content = r.sub(r'<a href="\1">\1</a>', text_content)
 #           self.response.write(link_content)
            content.append(link_content)  

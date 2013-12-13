@@ -45,7 +45,7 @@ class showCompleteBlog(webapp2.RequestHandler):
        for c in comments_list:
            count_comments = count_comments + 1
        
-       r = re.compile(r"(https?://[^ ]+)")
+       r = re.compile(r"([^(<img src=)].https?://[^ ]+)")
        link_content = r.sub(r'<a href="\1">\1</a>', b.content)
        template_values = {'comments':comments_list,
                           'b': b,

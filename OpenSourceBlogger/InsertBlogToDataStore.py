@@ -22,9 +22,9 @@ class InsertBlogToDataStore(webapp2.RequestHandler):
        tags = form_tags.split(';')
        count_tags=len(tags)
               
- #      newcntnt = re.sub(r'(https?://[^\s]+)',r"<a href='\1'>\1</a>",form_content)
+       newcntnt = re.sub(r'(https?://[^\s]+\.(jpg|gif|png)$)',r"<img src=\1 width='42'>",form_content)
        #newcntnt = re.sub(r'(https?://[^\s]+\.(jpg|gif|png)$)',r"<img src='\1' width='42'>",cntnt)
- #      blgcntnt = re.sub(r'(<a href=\(\'[^\']+\.(jpg|gif|png)$\)\'>\1</a>)',r"<img src=\1 width='42'>",newcntnt)
+ #      blgcntnt = re.sub(r'(https?://[^\s]+\(\'[^\']+\.(jpg|gif|png)$\)\'>\1</a>)',r"<img src=\1 width='42'>",newcntnt)
 
 #       r = re.compile(r"(https?://[^ ]+)")
 #       link_content = r.sub(r'<a href="\1">\1</a>', form_content)
@@ -40,7 +40,7 @@ class InsertBlogToDataStore(webapp2.RequestHandler):
        b = Blogs(ParentBlogId = int(form_parent),
                  owner = form_owner,
                  title = form_title, 
-                 content = form_content,
+                 content = newcntnt,
                  create_time = form_create_time,
                  modify_time = form_modify_time,
                  tag1 = tags[0],

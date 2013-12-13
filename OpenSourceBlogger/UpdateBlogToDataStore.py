@@ -29,6 +29,8 @@ class UpdateBlogToDataStore(webapp2.RequestHandler):
        
 #       r = re.compile(r"(https?://[^ ]+)")
 #       link_content = r.sub(r'<a href="\1">\1</a>', form_content)
+
+       newcntnt = re.sub(r'(https?://[^\s]+\.(jpg|gif|png)$)',r'<img src=\1 width=500 height=300></img>',form_content)
        
        while count_tags <=5:
             tags.append("")
@@ -36,7 +38,7 @@ class UpdateBlogToDataStore(webapp2.RequestHandler):
        
           
        b.title = form_title 
-       b.content = form_content
+       b.content = newcntnt
        b.modify_time = form_modify_time
        b.tag1 = tags[0]
        b.tag2 = tags[1]
