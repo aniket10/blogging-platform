@@ -94,7 +94,10 @@ handlers:
 
 - url: /ImageSelected.py.*
   script: ImageSelected.application
-    
+
+- url: /viewBlog.py.*
+  script: viewBlog.application
+      
 libraries:
 - name: webapp2
   version: latest
