@@ -31,7 +31,7 @@
 	{% if login == 1  %}
 		<form name = "login" action="logout.py">
 			<p align = right  >
-			<font color="#FFFFFF"><a href="/">HOME</a>&nbsp;&nbsp;&nbsp;&nbsp; Welcome {{ username }}</font> &nbsp;&nbsp;&nbsp;&nbsp;
+			<font color="#FFFFFF"><a href="/" style="color: #FFFFFF">HOME</a>&nbsp;&nbsp;&nbsp;&nbsp;Welcome {{ username }}</font> &nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="submit" value="LogOut"/></p>
 		</form>
 	{% else %}
@@ -54,7 +54,7 @@
 	    	<a href=/rss.py?blogId={{ query}}>RSS</a> for the blog<br>
 	    	Other Tags in the Blog: 
 	    	{% for t in tags %}
-	    		<a href=/BlogFeed.py?query={{ t }}&type=tags&page=1>{{ t }}</a>&nbsp;&nbsp;&nbsp; |
+	    		<a href="/BlogFeed.py?query={{ t }}&type=tags&page=1">{{ t }}</a>&nbsp;&nbsp;&nbsp; |
 	    	{% endfor %}
 	    	<br>
 	    {% endif %}
