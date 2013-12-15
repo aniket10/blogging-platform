@@ -72,15 +72,15 @@ class home(webapp2.RequestHandler):
            tags = []
            
            for f in follow_list:
-               self.response.write(f.item)
+      #         self.response.write(f.item)
                if f.type == 0:
-                   self.response.write('type = 0')
+       #            self.response.write('type = 0')
                    ppl.append(f.item)
                if f.type == 1:
-                   self.response.write('type = 1')
+     #              self.response.write('type = 1')
                    tags.append(f.item)
                if f.type == 2:
-                   self.response.write('type = 2')
+     #              self.response.write('type = 2')
                    blogs.append(int(f.item))    
            
            dbquery = "SELECT * FROM Blogs ORDER BY modify_time DESC"
@@ -89,12 +89,12 @@ class home(webapp2.RequestHandler):
            selected_count = 0
            content = []
            
-           self.response.write(blogs)
+   #        self.response.write(blogs)
            
            for b in blog_list:
-               self.response.write("---")
-               self.response.write(b.key().id())
-               self.response.write(b.ParentBlogId)
+   #            self.response.write("---")
+   #            self.response.write(b.key().id())
+   #            self.response.write(b.ParentBlogId)
                selected = 0
                if b.owner in ppl:
                    display_list.append(b)
@@ -115,7 +115,7 @@ class home(webapp2.RequestHandler):
                    display_list.append(b)
                    selected = 1
                elif b.ParentBlogId in blogs:
-                   self.response.write('matching parent blogid')
+   #                self.response.write('matching parent blogid')
                    display_list.append(b)
                    selected = 1 
                if selected == 1:
@@ -136,7 +136,7 @@ class home(webapp2.RequestHandler):
                    if selected_count == 100:
                        break
                    
-           self.response.write(selected_count)
+   #        self.response.write(selected_count)
        else: 
            login = 0
            login_url = users.create_login_url('/')

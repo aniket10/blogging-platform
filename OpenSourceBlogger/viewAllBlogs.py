@@ -51,9 +51,9 @@ class viewAllBlogs(webapp2.RequestHandler):
        query = "SELECT * FROM Pages WHERE page_name='"+blogname+"'"
        blogs_list = db.GqlQuery(query)
        
-       self.response.write('Printing result')
-       for b in blogs_list:
-           self.response.write(b.owner) 
+   #    self.response.write('Printing result')
+   #    for b in blogs_list:
+   #        self.response.write(b.owner) 
        
        template_values = { 
                           'blogs_list': blogs_list,

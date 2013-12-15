@@ -51,7 +51,7 @@ class UpdateBlogToDataStore(webapp2.RequestHandler):
                           )
             t.put()
             id = t.key().id()
-            self.response.write("Added to tempstore")
+    #        self.response.write("Added to tempstore")
             self.redirect('/AddImage.py?blogId='+str(id)+'&caller=1', False, False, None, None)
        if action == "Modify Blog Post" : 
            b.title = form_title 

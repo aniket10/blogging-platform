@@ -11,12 +11,13 @@
 	 {% if login == 1  %}
 		<form name = "login" action="logout.py">
 			<p align = right  >
-			<font color="#FFFFFF">Welcome {{ username }}</font> &nbsp;&nbsp;&nbsp;&nbsp;
+			<font color="#FFFFFF"><a href="/">HOME</a>&nbsp;&nbsp;&nbsp;&nbsp;Welcome {{ username }}</font> &nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="submit" value="LogOut"/></p>
 		</form>
 	{% else %}
 			<form name = "login" action="login.py">
 			<p align = right  >
+			<a href="/">HOME</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="hidden" name="cur_url" value="{{ cur_url }}" />
 			<input type="submit" value="LogIn"/></p>
 		</form>
