@@ -2,49 +2,36 @@ import webapp2
 import jinja2
 import os
 import urlparse
+from Images import Images
+from google.appengine.ext import db
 from google.appengine.api import users 
+from google.appengine.api import images
 from UserLoggedin import UserLoggedIn
+from google.appengine.ext import blobstore
 
-class MainPage(webapp2.RequestHandler):
+class AddImage(webapp2.RequestHandler):
 
     def get(self):
         JINJA_ENVIRONMENT = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
                                                extensions=['jinja2.ext.autoescape'],
                                                autoescape=True)
-        template = JINJA_ENVIRONMENT.get_template('NewBlog.html')
+        template = JINJA_ENVIRONMENT.get_template('AddImage.html')
         
         cur_url = self.request.url
         parsed_url = urlparse.urlparse(cur_url)
-#        session = urlparse.parse_qs(parsed_url.query)['sessionId']
-        pn = urlparse.parse_qs(parsed_url.query)['PageName']    
-#        sessionId = int(session[0])
-        page_name = int(pn[0])
+        page_name = ""
+        try:
+            pn = urlparse.parse_qs(parsed_url.query)['PageName']
+            page_name = int(pn[0])
+        except Exception:
+            pn = ""
+        bi = urlparse.parse_qs(parsed_url.query)['blogId']    
         
-        tags = ""
-        title = ""
-        content = ""
+        blogId = bi[0]
         
-        type = 0  
-        b = ""
-        if page_name == 0 :
-            bi = urlparse.parse_qs(parsed_url.query)['blogId']
-            blogId = bi[0]
-            
-            b = TempStore.get_by_id(int(blogId))
-            type = 1
-            page_name = b.ParentBlogId
-            title = b.title
-            content = b.content
-            tags = b.tags
-            
-            b.delete()
-            
         login = 0
         login_url = ""
         username = ""
- 
-        user = users.get_current_user()
-        
                   
 #        if sessionId != 0:
 #           login = 1
@@ -53,6 +40,10 @@ class MainPage(webapp2.RequestHandler):
 #        else: 
 #           login = 0
 #           login_url = users.create_login_url('/')
+#        logout_url = users.create_logout_url('/')
+
+        user = users.get_current_user()
+
         if user:
             login = 1
             username = user.nickname()
@@ -61,21 +52,31 @@ class MainPage(webapp2.RequestHandler):
             login_url = users.create_login_url(cur_url)
         logout_url = users.create_logout_url('/')
     
+        upload_url = blobstore.create_upload_url('/AddImageToStore.py')    
+        
+        query = "SELECT * from Images WHERE owner='"+username+"'"
+        image_list = db.GqlQuery(query)
+        
+        self.response.write(cur_url)
+                   
+    #        image_urls.append(i_url)
+    #        self.response.write(i_url)
+      
+    
         template_values = {'login' : login,
                           'login_url' : login_url,
                           'logout_url' : logout_url,
                           'username' : username,
-   #                       'sessionId' : sessionId,
                           'parentPageId' : page_name,
-                          'type' : type,
-                          'tags' : tags,
-                          'content' : content,
-                          'title' : title
-                            }
+                          'image_list' : image_list,
+                          'upload_url' : upload_url,
+                          'blogId' : blogId,
+                          'cur_url': cur_url
+                         }
                 
         self.response.write(template.render(template_values))
 
 application = webapp2.WSGIApplication([
-    ('/NewBlog.*', MainPage)
+    ('/AddImage.*', AddImage)
     ], debug=True)
 

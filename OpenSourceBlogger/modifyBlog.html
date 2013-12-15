@@ -29,7 +29,11 @@
 		    <textarea rows=15 cols=50 name='content'   >{{ b.content }}</textarea><br>
 		    <br>Enter tags seperated by ; (semi-colon):<br> 
 		    
-		    {% if b.tag1 != "" and b.tag2 == ""%}
+		     {% if b.tag1 == "" %}
+		     	<input type='text' name='tags' value=""/><br><br>
+		     {% endif %}
+		     
+		     {% if b.tag1 != "" and b.tag2 == ""%}
 		     	<input type='text' name='tags' value="{{ b.tag1}}"/><br><br>
 		     {% endif %}
 		     

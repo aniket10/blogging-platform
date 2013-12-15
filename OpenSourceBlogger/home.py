@@ -4,6 +4,7 @@ import urlparse
 import jinja2
 import os
 import re
+import urllib2
 from Blogs import Blogs
 from google.appengine.ext import db
 from google.appengine.api import users
@@ -11,6 +12,22 @@ from UserLoggedin import UserLoggedIn
 from Comments import Comments
 from Follow import Follow
 from Pages import Pages
+from putLink import putLink
+#from Convert import Convert
+
+#class Convert(webapp2.RequestHandler):
+def convert(matchobj):
+    url=matchobj.group(0)        
+    try:
+        response= urllib2.urlopen(putLink(url))
+    except Exception:
+        return "<a href='"+url+"'>"+url+"</a>"
+    maintype= response.headers['Content-Type'].split(';')[0].lower()
+    if maintype not in ('image/png', 'image/jpeg', 'image/gif'):
+        return "<a href='"+url+"'>"+url+"</a>"
+    else:
+        return "<img src='"+url+"' width='500' height='250'></img>"
+
 
 class home(webapp2.RequestHandler):
 
@@ -25,7 +42,7 @@ class home(webapp2.RequestHandler):
        login = 0
        login_url = ""
        username = ""
-       sessionId = 0
+    #   sessionId = 0
        display_list = []
        comments = []
        content = []
@@ -34,18 +51,18 @@ class home(webapp2.RequestHandler):
            login = 1
            username = user.nickname()
            
-           dbquery = "SELECT * FROM UserLoggedIn WHERE blogger=:1",user
-           userEntry = db.GqlQuery("SELECT * FROM UserLoggedIn WHERE blogger=:1",user)
+   #        dbquery = "SELECT * FROM UserLoggedIn WHERE blogger=:1",user
+   #        userEntry = db.GqlQuery("SELECT * FROM UserLoggedIn WHERE blogger=:1",user)
            
-           entryCount = 0
-           for ue in userEntry:
-               sessionId= ue.key().id()
-               entryCount = entryCount + 1
+   #        entryCount = 0
+   #        for ue in userEntry:
+   #            sessionId= ue.key().id()
+   #            entryCount = entryCount + 1
            
-           if entryCount == 0:
-               u = UserLoggedIn(blogger = user)
-               u.put()
-               sessionId = str(u.key().id())
+   #        if entryCount == 0:
+   #            u = UserLoggedIn(blogger = user)
+   #            u.put()
+    #           sessionId = str(u.key().id())
            
            dbquery = "SELECT * FROM Follow WHERE user='"+username+"'"
            follow_list = db.GqlQuery(dbquery)
@@ -112,8 +129,9 @@ class home(webapp2.RequestHandler):
                        count_comment = count_comment + 1
 #           self.response.write(count_likes) 
                    comments.append(str(count_comment))
-                   r = re.compile(r"([^(<img src=)].https?://[^ ]+)")
-                   link_content = r.sub(r'<a href="\1">\1</a>', b.content)
+                   #r = re.compile(r"https?://[^ ]+.^(jpg|gif|png)$")
+                   #link_content = r.sub(r'<a href="\1">\1</a>', b.content)
+                   link_content = re.sub(r'(https?://[^\s]+)',convert,b.content)
                    content.append(link_content)
                    if selected_count == 100:
                        break
@@ -122,7 +140,7 @@ class home(webapp2.RequestHandler):
        else: 
            login = 0
            login_url = users.create_login_url('/')
-       logout_url = "logout.py?sessionId="+str(sessionId)
+       logout_url = "logout.py"
                  
        dlc = zip(display_list,comments,content)
        userblogs = []
@@ -139,7 +157,6 @@ class home(webapp2.RequestHandler):
                           'login_url' : login_url,
                           'logout_url' : logout_url,
                           'username' : username,
-                          'sessionId' : sessionId,
                           'display_listnComments' : dlc,
                           'userblogs' : userblogs,
                           'ubcount' : ubcount,

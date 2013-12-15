@@ -12,7 +12,7 @@ class addThumbsDown(webapp2.RequestHandler):
        
        blogId = form['blogid'].value
        url = form['dest_url'].value
-       sessionId = int(form['sessionId'].value)
+#       sessionId = int(form['sessionId'].value)
        b = Blogs.get_by_id(int(blogId))
        
        b.thumbsdown = b.thumbsdown + 1

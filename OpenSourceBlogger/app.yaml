@@ -14,6 +14,9 @@ handlers:
 - url: /Blogs.py.*
   script: Blogs.application
 
+- url: /TempStore.py.*
+  script: TempStore.application
+
 - url: /UserLoggedIn.py.*
   script: UserLoggedIn.application
 
@@ -76,6 +79,18 @@ handlers:
 
 - url: /rss.py.*
   script: rss.application
+
+- url: /putLink.py.*
+  script: putLink.application
+
+- url: /Convert.py.*
+  script: Convert.application
+
+- url: /AddImage.py.*
+  script: AddImage.application
+
+- url: /AddImageToStore.py.*
+  script: AddImageToStore.application
     
 libraries:
 - name: webapp2

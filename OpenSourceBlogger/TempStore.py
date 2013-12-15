@@ -4,12 +4,14 @@ from datetime import datetime
 from google.appengine.ext import db
 from google.appengine.api import users
 
-class Pages(db.Model):
-    page_name = db.StringProperty(required = True)
+class TempStore(db.Model):
+    ParentBlogId = db.IntegerProperty(required = True)
     owner= db.StringProperty(required = True)
-    create_time = db.DateTimeProperty(required = True)
-    tags = db.StringProperty
+    title = db.StringProperty()
+    content = db.BlobProperty()
+    tag = db.StringProperty()
+    
     
 application = webapp2.WSGIApplication([
-    ('/Pages.*',Pages)
+    ('/TempStore.*',TempStore)
     ], debug=True)

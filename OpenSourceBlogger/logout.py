@@ -8,12 +8,14 @@ from google.appengine.api import users
 class logout(webapp2.RequestHandler):
 
     def get(self):    
-       form = cgi.FieldStorage()
+#       form = cgi.FieldStorage()
        
-       sessionId = form['sessionId'].value
+#       sessionId = form['sessionId'].value
               
-       s = UserLoggedIn.get_by_id(int(sessionId))
-       s.delete()
+#       s = UserLoggedIn.get_by_id(int(sessionId))
+#       username = s.blogger
+#       s.delete()
+       
        
        url = users.create_logout_url('/')
        

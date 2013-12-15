@@ -13,7 +13,6 @@
 		<form name = "login" action="logout.py">
 			<p align = right  >
 			<font color="#FFFFFF">Welcome {{ username }}</font> &nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="hidden" name="sessionId" value="{{sessionId}}" />
 			<input type="submit" value="LogOut"/></p>
 		</form>
 	{% else %}
@@ -32,10 +31,10 @@
 	    {% else %}
 	    	<h1>Posts from Blog {{ blogname }}</h1>
 	    	Get the  
-	    	<a href=/rss.py?blogId={{ query}}&sessionId={{sessionId}}>RSS</a> for the blog<br>
+	    	<a href=/rss.py?blogId={{ query}}>RSS</a> for the blog<br>
 	    	Other Tags in the Blog: 
 	    	{% for t in tags %}
-	    		<a href=/BlogFeed.py?query={{ t }}&type=tags&page=1&sessionId={{ sessionId }}>{{ t }}</a>&nbsp;&nbsp;&nbsp; |
+	    		<a href=/BlogFeed.py?query={{ t }}&type=tags&page=1>{{ t }}</a>&nbsp;&nbsp;&nbsp; |
 	    	{% endfor %}
 	    	<br>
 	    {% endif %}
@@ -61,10 +60,10 @@
 	    {% endif %}	
 		{% for b,l,c in blogsnlikes %}
 		     <hr>
-		     <h3><a href=showCompleteBlog.py?blogid={{ b.key().id() }}&sessionId={{sessionId}}>{{ b.title }}</a></h3>
+		     <h3><a href=showCompleteBlog.py?blogid={{ b.key().id() }}>{{ b.title }}</a></h3>
 		     By {{ b.owner }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		     {% if username == b.owner %}
-		     	<a href=modifyBlog.py?blogid={{ b.key().id() }}&&sessionId={{ sessionId }}>Edit</a><br> 
+		     	<a href=modifyBlog.py?blogid={{ b.key().id() }}>Edit</a><br> 
 		     {% endif %}
 		     <h5> Created on:{{ b.create_time }}</h5>
 		     <h5> Last Updated on:{{ b.modify_time }}</h5>	  
@@ -73,36 +72,36 @@
 		     {% else %}
 		         {{ c[:500] }}
 		         ... &nbsp;&nbsp;&nbsp;
-		         <a href=showCompleteBlog.py?blogid={{ b.key().id() }}&sessionId={{ sessionId }}>more</a>
+		         <a href=showCompleteBlog.py?blogid={{ b.key().id() }}>more</a>
 		         <br>
 		     {% endif %}
 		     Tags : 
 		     {% if b.tag1 != "" %}
-		     	<a href=/BlogFeed.py?query={{ b.tag1 }}&type=tags&page=1&sessionId={{ sessionId }}>{{ b.tag1 }}</a>
+		     	<a href=/BlogFeed.py?query={{ b.tag1 }}&type=tags&page=1>{{ b.tag1 }}</a>
 		     	&nbsp;&nbsp;
 		     {% endif %}
 		     
 		     {% if b.tag2 != "" %}
 		     	|&nbsp;&nbsp;
-		     	<a href=/BlogFeed.py?query={{ b.tag2 }}&type=tags&page=1&sessionId={{ sessionId }}>{{ b.tag2 }}</a>
+		     	<a href=/BlogFeed.py?query={{ b.tag2 }}&type=tags&page=1>{{ b.tag2 }}</a>
 		     	&nbsp;&nbsp;
 		     {% endif %}
 		     
 		     {% if b.tag3 != "" %}
 		     	|&nbsp;&nbsp;
-		     	<a href=/BlogFeed.py?query={{ b.tag3 }}&type=tags&page=1&sessionId={{ sessionId }}>{{ b.tag3 }}</a>
+		     	<a href=/BlogFeed.py?query={{ b.tag3 }}&type=tags&page=1>{{ b.tag3 }}</a>
 		     	&nbsp;&nbsp;
 		     {% endif %}
 		     
 		     {% if b.tag4 != "" %}
 		     	|&nbsp;&nbsp;
-		     	<a href=/BlogFeed.py?query={{ b.tag4 }}&type=tags&page=1&sessionId={{ sessionId }}>{{ b.tag4 }}</a>
+		     	<a href=/BlogFeed.py?query={{ b.tag4 }}&type=tags&page=1>{{ b.tag4 }}</a>
 		     	&nbsp;&nbsp;
 		     {% endif %}
 		     
 		     {% if b.tag5 != "" %}
 		     	|&nbsp;&nbsp;
-		     	<a href=/BlogFeed.py?query={{ b.tag5 }}&type=tags&page=1&sessionId={{ sessionId }}>{{ b.tag5 }}</a>
+		     	<a href=/BlogFeed.py?query={{ b.tag5 }}&type=tags&page=1>{{ b.tag5 }}</a>
 		     	&nbsp;&nbsp;
 		     {% endif %}
 		     <br><br>
@@ -114,21 +113,18 @@
 			     		<td><form name="thumbsupform" action="/addThumbsUp.py" >
 				     			<input type="hidden" name="blogid" value="{{ b.key().id() }}" />
 				     			<input type="hidden" name="dest_url" value="{{ cur_url }}" />
-				     			<input type="hidden" name="sessionId" value="{{ sessionId }}" />
 				     			<input type="submit" value="Thumbs-Up" />
 			     		    </form>
 			     		</td>
 			     		<td><form name="thumbsdownform" action="/addThumbsDown.py" >
 				     			<input type="hidden" name="blogid" value="{{ b.key().id() }}" />
 				     			<input type="hidden" name="dest_url" value="{{ cur_url }}" />
-				     			<input type="hidden" name="sessionId" value="{{ sessionId }}" />
 				     			<input type="submit" value="Thumbs-Down" />
 			     		    </form>
 			     		</td>
 			     		<td><form name="commentform" action="showCompleteBlog.py" >
 				     			<input type="hidden" name="blogid" value="{{ b.key().id() }}" />
 				     			<input type="hidden" name="dest_url" value="{{ cur_url }}" />
-				     			<input type="hidden" name="sessionId" value="{{ sessionId }}" />
 				     			<input type="submit" value="Comment" />
 			     		    </form>
 			     		</td>	     		
@@ -139,7 +135,7 @@
 			{% endfor %}      
 		<br><br>
 		{% if more == 1 %}
-			<a href = /BlogFeed.py?query={{ query }}&type={{ type }}&page={{ nextpage }}&sessionId={{sessionId}}>Next Page</a>
+			<a href = /BlogFeed.py?query={{ query }}&type={{ type }}&page={{ nextpage }}>Next Page</a>
 		{% endif %} 
 	</td></tr></table>	 
 	</body></html>

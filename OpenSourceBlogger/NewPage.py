@@ -15,27 +15,34 @@ class NewPage(webapp2.RequestHandler):
         
         cur_url = self.request.url
         parsed_url = urlparse.urlparse(cur_url)
-        session = urlparse.parse_qs(parsed_url.query)['sessionId']  
-        sessionId = int(session[0])
+ #       session = urlparse.parse_qs(parsed_url.query)['sessionId']  
+ #       sessionId = int(session[0])
        
         login = 0
         login_url = ""
         username = ""
+        
+        user = users.get_current_user()
                   
-        if sessionId != 0:
-           login = 1
-           user = UserLoggedIn.get_by_id(int(session[0]))
-           username = user.blogger.nickname()
-        else: 
-           login = 0
-           login_url = users.create_login_url('/')
+   #     if sessionId != 0:
+   #        login = 1
+   #        user = UserLoggedIn.get_by_id(int(session[0]))
+   #        username = user.blogger.nickname()
+   #     else: 
+   #        login = 0
+        if user:
+            login = 1
+            username = user.nickname()
+        else:
+            login = 0
+            login_url = users.create_login_url(cur_url)
         logout_url = users.create_logout_url('/')
     
         template_values = {'login' : login,
                           'login_url' : login_url,
                           'logout_url' : logout_url,
                           'username' : username,
-                          'sessionId' : session,
+                  #        'sessionId' : session,
                             }
                 
         self.response.write(template.render(template_values))

@@ -12,7 +12,6 @@
 		<form name = "login" action="logout.py">
 			<p align = right  >
 			<font color="#FFFFFF">Welcome {{ username }}</font> &nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="hidden" name="sessionId" value="{{sessionId}}" />
 			<input type="submit" value="LogOut"/></p>
 		</form>
 	{% else %}
@@ -25,7 +24,6 @@
 	 <table align=center width="50%" bgcolor="#FFFFFF" cellpadding = "20"><tr><td>
 	 <h1>Blogs matching {{ name }}</h1><hr>
 	 <form name="matching_blogs" action="BlogFeed.py">
-	 	 <input type="hidden" name="sessionId" value="{{sessionId}}" />
 		 <input type="hidden" name="page" value="1" />
 		 <input type="hidden" name="type" value="sblog" /><br>
 		 {% for b in blogs_list  %}

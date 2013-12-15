@@ -7,6 +7,7 @@ from Blogs import Blogs
 from Comments import Comments
 from UserLoggedin import UserLoggedIn
 from google.appengine.ext import db
+from google.appengine.api import users 
 
 class rss(webapp2.RequestHandler):
 
@@ -19,23 +20,31 @@ class rss(webapp2.RequestHandler):
        cur_url = self.request.url
        parsed_url = urlparse.urlparse(cur_url)
        blogid = urlparse.parse_qs(parsed_url.query)['blogId']
-       session = urlparse.parse_qs(parsed_url.query)['sessionId']
-       sessionId = int(session[0])
        
        login = 0
        user = ""
        username = ""
 #       self.response.write(sessionId)
-       try:
-            user = UserLoggedIn.get_by_id(int(sessionId))
-            username = user.blogger.nickname()
-            login = 1
-       except db.BadKeyError:
-            login = 0
-       except NameError:
-            login = 0 
+
+       user = users.get_current_user()
+       
+       
+#       try:
+#            user = UserLoggedIn.get_by_id(int(sessionId))
+#            username = user.blogger.nickname()
+#            login = 1
+#       except db.BadKeyError:
+#            login = 0
+#       except NameError:
+#            login = 0 
 #       self.response.write(login) 
-           
+       if user:
+            login = 1
+            username = user.nickname()
+       else:
+            login = 0
+            login_url = users.create_login_url(cur_url)
+       logout_url = users.create_logout_url('/')          
        blogs = db.GqlQuery("SELECT * FROM Blogs WHERE ParentBlogId="+blogid[0]+" ORDER BY create_time DESC")
        
        title = []
@@ -49,7 +58,7 @@ class rss(webapp2.RequestHandler):
        
        for b in blogs:
             title.append("<title>"+b.title+"</title>")
-            content.append("<content"+b.content+"</content>")
+            content.append("<content>"+b.content+"</content>")
             tag1.append("<tag1>"+b.tag1+"</tag1>")
             tag2.append("<tag2>"+b.tag2+"</tag2>")
             tag3.append("<tag3>"+b.tag3+"</tag3>")
@@ -68,7 +77,7 @@ class rss(webapp2.RequestHandler):
                           'login' : login,
                           'cur_url' : cur_url,
                           'username' : username,
-                          'sessionId' : sessionId,
+ #                         'sessionId' : sessionId,
                           'blog_base' : blog_base, 
                           'blog_end' : blog_end,  
                           'post_base' : post_base, 

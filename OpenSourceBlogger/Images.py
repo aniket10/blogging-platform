@@ -5,10 +5,9 @@ from google.appengine.ext import db
 from google.appengine.api import users
 
 class Images(db.Model):
-    type= db.IntProperty(required = True)
-    url = db.StringProperty()
-    image = db.BlobProperty()
-    
+    owner = db.StringProperty(required=True)
+    image_url = db.StringProperty()
+    image_key = db.StringProperty()    
     
 application = webapp2.WSGIApplication([
     ('/Images.*',Images)

@@ -17,7 +17,10 @@ class UpdateBlogToDataStore(webapp2.RequestHandler):
        
        form_title = form['title'].value
        form_content = form['content'].value
-       form_tags = form['tags'].value
+       try:
+           form_tags = form['tags'].value
+       except Exception:
+           form_tags = ""
        form_modify_time = datetime.now()
        form_owner = form['owner'].value
        tags = form_tags.split(';')
@@ -30,7 +33,7 @@ class UpdateBlogToDataStore(webapp2.RequestHandler):
 #       r = re.compile(r"(https?://[^ ]+)")
 #       link_content = r.sub(r'<a href="\1">\1</a>', form_content)
 
-       newcntnt = re.sub(r'(https?://[^\s]+\.(jpg|gif|png)$)',r'<img src=\1 width=500 height=300></img>',form_content)
+ #      newcntnt = re.sub(r'([^(<img src=)]https?://[^\s]+\.(jpg|gif|png)$)',r'<img src=\1 width=500 height=300></img>',form_content)
        
        while count_tags <=5:
             tags.append("")
@@ -38,7 +41,7 @@ class UpdateBlogToDataStore(webapp2.RequestHandler):
        
           
        b.title = form_title 
-       b.content = newcntnt
+       b.content = form_content
        b.modify_time = form_modify_time
        b.tag1 = tags[0]
        b.tag2 = tags[1]
