@@ -11,7 +11,7 @@
  	{% if login == 1 %}
     	<form name = "login" action="logout.py" >
 			<p align = right  >
-			<font color="#FFFFFF" >Welcome {{ b.owner }} </font>&nbsp;&nbsp;&nbsp;&nbsp;
+			<font color="#FFFFFF" ><a href="/">HOME</a>&nbsp;&nbsp;&nbsp;&nbsp;Welcome {{ b.owner }} </font>&nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="hidden" name="sessionId" value="{{sessionId}}" />
 			<input type="submit" value="LogOut"/></p>
 		</form>
@@ -68,7 +68,12 @@
 	{% else %}
 		<table align=center width="50%" bgcolor="#FFFFFF" cellpadding = "20">
 		<tr><td>
-		<a href={{ login_url }} > Login </a> to modify a new Blog
+		<form name = "login" action="login.py">
+            <p align = right  >
+            <font color="#FFFFFF"><a href="/">HOME</a></font>
+            <input type="hidden" name="cur_url" value="{{ cur_url }}" />
+            <input type="submit" value="LogIn"/></p>
+        </form>
 		</td></tr></table>
 	{% endif %} 
  

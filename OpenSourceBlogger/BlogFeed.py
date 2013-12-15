@@ -155,7 +155,7 @@ class BlogFeed(webapp2.RequestHandler):
            subset_blogs.append(b)
 #           self.response.write(b.title)
            text_content = b.content
-           self.response.write(text_content)
+  #         self.response.write(text_content)
            
            
            #\bhttps?://\w*\b(?<!(png|jpg|gif))
@@ -171,7 +171,7 @@ class BlogFeed(webapp2.RequestHandler):
 #       self.response.write(likes)    
        blogsnlikes = zip(subset_blogs,likes,content)
 #       self.response.write(blogsnlikes)
-       self.response.write(cur_url)
+ #      self.response.write(cur_url)
        template_values = {
 #                          'blogs': subset_blogs,
                           'blogsnlikes':blogsnlikes,

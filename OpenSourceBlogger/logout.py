@@ -19,7 +19,7 @@ class logout(webapp2.RequestHandler):
        
        url = users.create_logout_url('/')
        
-       self.response.write("You have Logged Out")
+  #     self.response.write("You have Logged Out")
        self.redirect(url, False, False, None, None)
 
 

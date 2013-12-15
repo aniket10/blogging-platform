@@ -42,7 +42,7 @@ class InsertBlogToDataStore(webapp2.RequestHandler):
                           )
             t.put()
             id = t.key().id()
-            self.response.write("Added to tempstore")
+   #         self.response.write("Added to tempstore")
             self.redirect('/AddImage.py?blogId='+str(id)+'&PageName='+str(form_parent)+'&caller=0', False, False, None, None)
        if action == "Create Blog Post":    
            b = Blogs(ParentBlogId = int(form_parent),

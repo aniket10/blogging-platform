@@ -12,7 +12,7 @@ class login(webapp2.RequestHandler):
        
 #       cur_url = self.request.url
        cur_url = form['cur_url'].value
-       self.response.write(cur_url)
+#       self.response.write(cur_url)
        self.redirect(users.create_login_url(cur_url))
 
 

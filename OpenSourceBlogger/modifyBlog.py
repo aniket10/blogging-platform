@@ -22,21 +22,14 @@ class modifyBlog(webapp2.RequestHandler):
        bid = urlparse.parse_qs(parsed_url.query)['blogId']
        blogid = int(bid[0])
        caller = 0
-       self.response.write(cur_url)
-       try:
-            self.response.write('getting caller')
-            cal = urlparse.parse_qs(parsed_url.query)['caller']
-            caller = int(cal)
-            self.response.write(caller)
-       except Exception:
-            self.response.write('caller threw exception ... ')
-            caller = 0 
+ #      self.response.write(cur_url)
+   
        
        content = ""
        tags = ""
        title = ""
-       self.response.write('caller=')
-       self.response.write(caller)
+  #     self.response.write('caller=')
+  #     self.response.write(caller)
        
 #       sessionid = urlparse.parse_qs(parsed_url.query)['sessionId']   
        b = Blogs.get_by_id(blogid)
@@ -44,7 +37,7 @@ class modifyBlog(webapp2.RequestHandler):
        try:
            id = b.key().id()
        except Exception :
-           self.response.write('caller = 1')
+   #        self.response.write('caller = 1')
            t = TempStore.get_by_id(blogid)
            blogid = int(t.blogId)     
            content = t.content
@@ -59,8 +52,8 @@ class modifyBlog(webapp2.RequestHandler):
        for c in comments_list:
            count_comments = count_comments + 1
        
-       self.response.write(b.key().id())
-       self.response.write(blogid)
+  #     self.response.write(b.key().id())
+  #     self.response.write(blogid)
     #   self.response.write(t.blogId)
        login =0
 #       if int(sessionid[0]) != 0:

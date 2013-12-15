@@ -58,7 +58,7 @@ class AddImage(webapp2.RequestHandler):
         query = "SELECT * from Images WHERE owner='"+username+"'"
         image_list = db.GqlQuery(query)
         
-        self.response.write(cur_url)
+  #      self.response.write(cur_url)
                    
     #        image_urls.append(i_url)
     #        self.response.write(i_url)
