@@ -31,8 +31,6 @@
 	    	<h1>Posts containing #{{ query }}</h1>
 	    {% else %}
 	    	<h1>Posts from Blog {{ blogname }}</h1>
-	    	Get the  
-	    	<a href=/rss.py?blogId={{ query}}>RSS</a> for the blog<br>
 	    	Other Tags in the Blog: 
 	    	{% for t in tags %}
 	    		<a href=/BlogFeed.py?query={{ t }}&type=tags&page=1>{{ t }}</a>&nbsp;&nbsp;&nbsp; |
