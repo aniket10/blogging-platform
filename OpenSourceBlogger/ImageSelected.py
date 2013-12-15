@@ -6,7 +6,7 @@ from Blogs import Blogs
 from TempStore import TempStore 
 
 
-class InsertBlogToDataStore(webapp2.RequestHandler):
+class ImageSelected(webapp2.RequestHandler):
 
     def get(self):
        form = cgi.FieldStorage()
@@ -19,8 +19,13 @@ class InsertBlogToDataStore(webapp2.RequestHandler):
        
        b = TempStore.get_by_id(int(blogId))
        
-       b.content.append(' '+image_url)
+       content_str = str(b.content)
+       self.response.write(content_str)
+        
+       content_str= content_str+' '+image_url
+       self.response.write(content_str)
        
+       b.content = content_str  
        b.put()
 
        self.response.write("Added to tempstore")
@@ -28,7 +33,7 @@ class InsertBlogToDataStore(webapp2.RequestHandler):
        
 
 application = webapp2.WSGIApplication([
-    ('/InsertBlogToDataStore.*',InsertBlogToDataStore)
+    ('/ImageSelected.*',ImageSelected)
     ], debug=True)
 
 

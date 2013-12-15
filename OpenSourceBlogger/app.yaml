@@ -91,6 +91,9 @@ handlers:
 
 - url: /AddImageToStore.py.*
   script: AddImageToStore.application
+
+- url: /ImageSelected.py.*
+  script: ImageSelected.application
     
 libraries:
 - name: webapp2

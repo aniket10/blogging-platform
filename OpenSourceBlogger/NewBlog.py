@@ -4,6 +4,7 @@ import os
 import urlparse
 from google.appengine.api import users 
 from UserLoggedin import UserLoggedIn
+from TempStore import TempStore
 
 class MainPage(webapp2.RequestHandler):
 
@@ -16,7 +17,7 @@ class MainPage(webapp2.RequestHandler):
         cur_url = self.request.url
         parsed_url = urlparse.urlparse(cur_url)
 #        session = urlparse.parse_qs(parsed_url.query)['sessionId']
-        pn = urlparse.parse_qs(parsed_url.query)['PageName']    
+        pn = urlparse.parse_qs(parsed_url.query)['parentPageId']    
 #        sessionId = int(session[0])
         page_name = int(pn[0])
         
@@ -35,7 +36,7 @@ class MainPage(webapp2.RequestHandler):
             page_name = b.ParentBlogId
             title = b.title
             content = b.content
-            tags = b.tags
+            tags = b.tag
             
             b.delete()
             

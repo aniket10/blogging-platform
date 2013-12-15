@@ -20,7 +20,7 @@
 	 		{% if ubcount > 0 %}
 		 		<form name="AddPost" action="/NewBlog.py" >
 		 		    Add Post to an existing Blog:
-		 			<select name="PageName">
+		 			<select name="parentPageId">
 		 			   {% for ub in userblogs %}
 		 			     {{ ub.page_name }}
 		 				<option name="{{ ub.page_name }}" value="{{ub.key().id()}}">{{ub.page_name}}</option>
