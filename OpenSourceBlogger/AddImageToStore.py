@@ -20,7 +20,7 @@ class AddImageToStore(blobstore_handlers.BlobstoreUploadHandler):
        form_image = self.get_uploads('newImage')
     
        blogId = self.request.get('blogId')
-       PageName = self.request.get('PageName')
+       caller = self.request.get('caller')
        self.response.out.write('<html><body>You wrote:<pre>')
        self.response.out.write(cgi.escape(self.request.get('PageName')))
        self.response.out.write('</pre></body></html>')
@@ -53,7 +53,7 @@ class AddImageToStore(blobstore_handlers.BlobstoreUploadHandler):
                   image_url = im_url,
                   image_key = str(im_key))
        
-       target_url = "/AddImage.py?blogId="+blogId+"&PageName="+PageName
+       target_url = "/AddImage.py?blogId="+blogId+"&caller="+caller
        i.put()
        self.redirect(target_url, False, False, None, None)
        

@@ -25,10 +25,11 @@ class AddImage(webapp2.RequestHandler):
             page_name = int(pn[0])
         except Exception:
             pn = ""
-        bi = urlparse.parse_qs(parsed_url.query)['blogId']    
+        bi = urlparse.parse_qs(parsed_url.query)['blogId']
+        cal = urlparse.parse_qs(parsed_url.query)['caller']        
         
         blogId = bi[0]
-        
+        caller = cal[0]
         login = 0
         login_url = ""
         username = ""
@@ -71,7 +72,8 @@ class AddImage(webapp2.RequestHandler):
                           'image_list' : image_list,
                           'upload_url' : upload_url,
                           'blogId' : blogId,
-                          'cur_url': cur_url
+                          'cur_url': cur_url,
+                          'caller' : caller
                          }
                 
         self.response.write(template.render(template_values))

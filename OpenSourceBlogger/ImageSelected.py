@@ -16,6 +16,7 @@ class ImageSelected(webapp2.RequestHandler):
        
        blogId = form['blogId'].value
        image_url = form['image'].value
+       caller = form['caller'].value
        
        b = TempStore.get_by_id(int(blogId))
        
@@ -29,8 +30,10 @@ class ImageSelected(webapp2.RequestHandler):
        b.put()
 
        self.response.write("Added to tempstore")
-       self.redirect('/NewBlog.py?blogId='+str(blogId)+'&parentPageId=0', False, False, None, None)
-       
+       if caller == 0:
+           self.redirect('/NewBlog.py?blogId='+str(blogId)+'&parentPageId=0', False, False, None, None)
+       else:
+           self.redirect('/modifyBlog.py?blogId='+str(blogId)+'&caller=1', False, False, None, None)
 
 application = webapp2.WSGIApplication([
     ('/ImageSelected.*',ImageSelected)

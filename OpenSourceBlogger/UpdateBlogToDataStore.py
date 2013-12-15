@@ -5,12 +5,15 @@ import re
 from datetime import datetime
 from google.appengine.ext import db
 from Blogs import Blogs
+from TempStore import TempStore
 
 
 class UpdateBlogToDataStore(webapp2.RequestHandler):
 
     def get(self):
        form = cgi.FieldStorage()
+       
+       action = form['action'].value 
        
        blogid = form['blogid'].value
        b = Blogs.get_by_id(int(blogid))
@@ -39,17 +42,28 @@ class UpdateBlogToDataStore(webapp2.RequestHandler):
             tags.append("")
             count_tags = count_tags + 1
        
-          
-       b.title = form_title 
-       b.content = form_content
-       b.modify_time = form_modify_time
-       b.tag1 = tags[0]
-       b.tag2 = tags[1]
-       b.tag3 = tags[2]
-       b.tag4 = tags[3]
-       b.tag5 = tags[4]
-       b.put()
-       self.redirect('/', False, False, None, None)
+       if action == "Add Picture":
+            t = TempStore(blogId = blogid,
+                          owner = form_owner,
+                          title = form_title, 
+                          content = form_content,                
+                          tag = form_tags
+                          )
+            t.put()
+            id = t.key().id()
+            self.response.write("Added to tempstore")
+            self.redirect('/AddImage.py?blogId='+str(id)+'&caller=1', False, False, None, None)
+       if action == "Modify Blog Post" : 
+           b.title = form_title 
+           b.content = form_content
+           b.modify_time = form_modify_time
+           b.tag1 = tags[0]
+           b.tag2 = tags[1]
+           b.tag3 = tags[2]
+           b.tag4 = tags[3]
+           b.tag5 = tags[4]
+           b.put()
+           self.redirect('/', False, False, None, None)
        
 application = webapp2.WSGIApplication([
     ('/UpdateBlogToDataStore.*',UpdateBlogToDataStore)

@@ -12,7 +12,6 @@
         <form name = "login" action="logout.py">
             <p align = right  >
             <font color="#FFFFFF">Welcome {{ username }}</font> &nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="hidden" name="sessionId" value={{sessionId}} />
             <input type="submit" value="LogOut"/></p>
         </form>
         <table align=center width="50%" bgcolor="#FFFFFF" cellpadding = "20">
@@ -21,12 +20,14 @@
             Upload a new image:
             <form name = 'newBlog' action={{ upload_url }} method=POST enctype="multipart/form-data" >
             	<input type="hidden" name='blogId' value="{{ blogId }}" ></input>
+            	<input type="hidden" name='caller' value="{{ caller }}" ></input>
                 <input type="file" name="newImage" value="Add new Image" />
                 <input type="submit" name="uploadImage" value="Upload Image" />
              </form>
             <table> 
 	            <form action="ImageSelected.py">
 		            <input type="hidden" name='blogId' value="{{ blogId }}" ></input>
+		            <input type="hidden" name='caller' value="{{ caller }}" ></input>
 		            Previously Uploaded Images:<br>
 		            {% for i in image_list  %}
 		            <tr><td>

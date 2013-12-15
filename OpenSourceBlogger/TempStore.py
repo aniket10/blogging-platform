@@ -5,7 +5,8 @@ from google.appengine.ext import db
 from google.appengine.api import users
 
 class TempStore(db.Model):
-    ParentBlogId = db.IntegerProperty(required = True)
+    ParentBlogId = db.IntegerProperty()
+    blogId= db.StringProperty()
     owner= db.StringProperty(required = True)
     title = db.StringProperty()
     content = db.BlobProperty()

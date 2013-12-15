@@ -63,7 +63,7 @@
 		     <h3><a href=showCompleteBlog.py?blogid={{ b.key().id() }}>{{ b.title }}</a></h3>
 		     By {{ b.owner }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		     {% if username == b.owner %}
-		     	<a href=modifyBlog.py?blogid={{ b.key().id() }}>Edit</a><br> 
+		     	<a href=modifyBlog.py?blogId={{ b.key().id() }}>Edit</a><br> 
 		     {% endif %}
 		     <h5> Created on:{{ b.create_time }}</h5>
 		     <h5> Last Updated on:{{ b.modify_time }}</h5>	  
