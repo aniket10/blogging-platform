@@ -58,7 +58,7 @@ class rss(webapp2.RequestHandler):
        
        for b in blogs:
             title.append("<title>"+b.title+"</title>")
-            content.append("<content>"+b.content+"</content>")
+            content.append("<content>"+unicode(b.content,"utf-8")+"</content>")
             tag1.append("<tag1>"+b.tag1+"</tag1>")
             tag2.append("<tag2>"+b.tag2+"</tag2>")
             tag3.append("<tag3>"+b.tag3+"</tag3>")

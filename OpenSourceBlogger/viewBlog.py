@@ -70,10 +70,25 @@ class viewBlog(webapp2.RequestHandler):
        blog_owner = ''
        content = []
        blog_name = ""
-             
-       if query_type == 2:      
-           blogs = db.GqlQuery("SELECT * FROM Blogs WHERE ParentBlogId="+blogId+" ORDER BY create_time DESC")
-       elif query_type == 1:
+       tags = []      
+            
+       blogs = db.GqlQuery("SELECT * FROM Blogs WHERE ParentBlogId="+blogId+" ORDER BY create_time DESC")
+       for b in blogs:           
+           if b.tag1 != "" and b.tag1 not in tags:
+               tags.append(b.tag1)
+           
+           if b.tag2 != "" and b.tag2 not in tags:
+               tags.append(b.tag2)
+               
+           if b.tag3 != "" and b.tag3 not in tags:
+               tags.append(b.tag3)
+               
+           if b.tag4 != "" and b.tag4 not in tags:
+               tags.append(b.tag4)
+               
+           if b.tag5 != "" and b.tag5 not in tags:
+               tags.append(b.tag5) 
+       if query_type == 1:
       #     self.response.write(query_type)
            all_blogs = db.GqlQuery('SELECT * from Blogs ORDER BY create_time DESC')
            blogs = []
@@ -86,7 +101,7 @@ class viewBlog(webapp2.RequestHandler):
             
        likes = []
        comments= []
-       tags = []
+       
                   
        more = 0
        count = -1
@@ -126,21 +141,7 @@ class viewBlog(webapp2.RequestHandler):
             following = 1
        
  #      count_blogs = count(blogs)
-       for b in blogs:           
-           if b.tag1 != "" and b.tag1 not in tags:
-               tags.append(b.tag1)
-           
-           if b.tag2 != "" and b.tag2 not in tags:
-               tags.append(b.tag2)
-               
-           if b.tag3 != "" and b.tag3 not in tags:
-               tags.append(b.tag3)
-               
-           if b.tag4 != "" and b.tag4 not in tags:
-               tags.append(b.tag4)
-               
-           if b.tag5 != "" and b.tag5 not in tags:
-               tags.append(b.tag5) 
+       
  
        for b in blogs:
            count = count + 1
