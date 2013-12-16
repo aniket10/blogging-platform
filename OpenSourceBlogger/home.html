@@ -80,14 +80,14 @@
 		     <hr>
 		     <h3><a href=showCompleteBlog.py?blogid={{ d.key().id() }}>{{ d.title }}</a></h3>
 		     By {{ d.owner }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		     <h5> Created on:{{ d.create_time }}</h5>
-		     <h5> Last Updated on:{{ d.modify_time }}</h5>	  
+		     <h5> Created on:{{ d.create_time }}<br>
+		      Last Updated on:{{ d.modify_time }}</h5>	  
 		     {% if cn|length <= 500 %}
 		         {{ cn }}<br>
 		     {% else %}
 		         {{ cn[:500] }}
 		         ... &nbsp;&nbsp;&nbsp;
-		         <a href=showCompleteBlog.py?blogid={{ d.key().id() }}>more</a>
+		         <a href=showCompleteBlog.py?blogid="{{ d.key().id() }}">more</a>
 		         <br>
 		     {% endif %}
 		     Tags : 

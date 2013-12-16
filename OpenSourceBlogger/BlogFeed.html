@@ -86,12 +86,12 @@
 		     {% if username == b.owner %}
 		     	<a href=modifyBlog.py?blogId={{ b.key().id() }}>Edit</a><br> 
 		     {% endif %}
-		     <h5> Created on:{{ b.create_time }}</h5>
-		     <h5> Last Updated on:{{ b.modify_time }}</h5>	  
+		     <h5> Created on:{{ b.create_time }}<br>
+		     Last Updated on:{{ b.modify_time }}</h5>	  
 		     {% if c|length <= 500 %}
 		         {{ c }}<br>
 		     {% else %}
-		         {{ c[:500] }}
+		     	 {{ c[:500] }}
 		         ... &nbsp;&nbsp;&nbsp;
 		         <a href=showCompleteBlog.py?blogid={{ b.key().id() }}>more</a>
 		         <br>

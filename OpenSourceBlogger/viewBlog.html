@@ -44,12 +44,16 @@
 	{% endif %}
 	<table align=center width="50%" bgcolor="#FFFFFF" cellpadding = "20">
 	<tr><td>
-	    	<h1>Posts from Blog {{ blogname }}</h1>
+			{% if query_type == 2 %}
+	    		<h1>{{ blogname }}</h1>
+	    	{% else %}
+	    		<h1>Posts from {{ blogname }} with #{{query}}</h1>
+	    	{% endif %}
 	    	Get the  
-	    	<a href=/rss.py?blogId={{ query}}>RSS</a> for the blog<br>
+	    	<a href=/rss.py?blogId={{ blogId }}>RSS</a> for the blog<br>
 	    	Other Tags in the Blog: 
 	    	{% for t in tags %}
-	    		<a href="/BlogFeed.py?query={{ t }}&type=tags&page=1">{{ t }}</a>&nbsp;&nbsp;&nbsp; |
+	    		<a href="/viewBlog.py?blogId={{ blogId }}&query={{ t }}&page=1">{{ t }}</a>&nbsp;&nbsp;&nbsp; |
 	    	{% endfor %}
 	    	<br>
 	    {% if login == 1 %}
@@ -58,7 +62,7 @@
 		    		<input type="hidden" name="type" value="{{query_type}}" />
 		    		<input type="hidden" name="user" value="{{username}}" />
 		    		<input type="hidden" name = "url" value="{{ cur_url }}" />
-		    		<input type="hidden" name = "item" value="{{ query }}" />
+		    		<input type="hidden" name = "item" value="{{ blogId }}" />
 		    		{% if query_type == 2 %}
 		    			<input type="submit" value="FOLLOW {{ blogname }}" />
 		    		{% else %}
@@ -79,8 +83,8 @@
 		     {% if username == b.owner %}
 		     	<a href=modifyBlog.py?blogId={{ b.key().id() }}>Edit</a><br> 
 		     {% endif %}
-		     <h5> Created on:{{ b.create_time }}</h5>
-		     <h5> Last Updated on:{{ b.modify_time }}</h5>	  
+		     <h5> Created on:{{ b.create_time }}<br>
+		     Last Updated on:{{ b.modify_time }}</h5>	  
 		     {% if c|length <= 500 %}
 		         {{ c }}<br>
 		     {% else %}
@@ -92,31 +96,31 @@
 		     
 		     Tags : 
 		     {% if b.tag1 != "" %}
-		     	<a href=/BlogFeed.py?query={{ b.tag1 }}&type=tags&page=1>{{ b.tag1 }}</a>
+		     	<a href=/viewBlog.py?blogId={{ blogId }}&query={{ b.tag1 }}&page=1>{{ b.tag1 }}</a>
 		     	&nbsp;&nbsp;
 		     {% endif %}
 		     
 		     {% if b.tag2 != "" %}
 		     	|&nbsp;&nbsp;
-		     	<a href=/BlogFeed.py?query={{ b.tag2 }}&type=tags&page=1>{{ b.tag2 }}</a>
+		     	<a href=/viewBlog.py?blogId={{ blogId }}&query={{ b.tag2 }}&page=1>{{ b.tag2 }}</a>
 		     	&nbsp;&nbsp;
 		     {% endif %}
 		     
 		     {% if b.tag3 != "" %}
 		     	|&nbsp;&nbsp;
-		     	<a href=/BlogFeed.py?query={{ b.tag3 }}&type=tags&page=1>{{ b.tag3 }}</a>
+		     	<a href=/viewBlog.py?blogId={{ blogId }}&query={{ b.tag3 }}&page=1>{{ b.tag3 }}</a>
 		     	&nbsp;&nbsp;
 		     {% endif %}
 		     
 		     {% if b.tag4 != "" %}
 		     	|&nbsp;&nbsp;
-		     	<a href=/BlogFeed.py?query={{ b.tag4 }}&type=tags&page=1>{{ b.tag4 }}</a>
+		     	<a href=/viewBlog.py?blogId={{ blogId }}&query={{ b.tag4 }}&page=1>{{ b.tag4 }}</a>
 		     	&nbsp;&nbsp;
 		     {% endif %}
 		     
 		     {% if b.tag5 != "" %}
 		     	|&nbsp;&nbsp;
-		     	<a href=/BlogFeed.py?query={{ b.tag5 }}&type=tags&page=1>{{ b.tag5 }}</a>
+		     	<a href=/viewBlog.py?blogId={{ blogId }}&query={{ b.tag5 }}&page=1>{{ b.tag5 }}</a>
 		     	&nbsp;&nbsp;
 		     {% endif %}
 		     <br><br>
@@ -157,7 +161,11 @@
 			{% endfor %}      
 		<br><br>
 		{% if more == 1 %}
-			<a href = /viewBlog.py?blogId={{ query }}&page={{ nextpage }}>Next Page</a>
+			{% if query_type == 2 %}
+				<a href = /viewBlog.py?blogId={{ blogId }}&page={{ nextpage }}>Next Page</a>
+			{% else %}
+			<a href = /viewBlog.py?blogId={{ blogId }}&query={{ query }}&page={{ nextpage }}>Next Page</a>
+			{% endif %}
 		{% endif %} 
 	</td></tr></table>	 
 	</body></html>

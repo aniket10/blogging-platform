@@ -43,12 +43,24 @@ class viewBlog(webapp2.RequestHandler):
        parsed_url = urlparse.urlparse(cur_url)
        bid = urlparse.parse_qs(parsed_url.query)['blogId']
        blogId = bid[0]
-       query = blogId
-       query_type = 2
+       
+       query_type = 0
+       query = ""
+       
+       try:
+           qry = urlparse.parse_qs(parsed_url.query)['query']
+           query = qry[0]
+           query_type = 1
+     #      self.response.write("found value for query")
+       except Exception:
+           query_type = 2
+           query = ""
+    #       self.response.write("query is null")
+       
        page=1
        try:
            pno = urlparse.parse_qs(parsed_url.query)['page']
-           page = int(pno)
+           page = int(pno[0])
        except Exception:
            page = 1
        
@@ -59,8 +71,17 @@ class viewBlog(webapp2.RequestHandler):
        content = []
        blog_name = ""
              
-       blogs = db.GqlQuery("SELECT * FROM Blogs WHERE ParentBlogId="+query+" ORDER BY create_time DESC")
-       blogpage = Pages.get_by_id(int(query))
+       if query_type == 2:      
+           blogs = db.GqlQuery("SELECT * FROM Blogs WHERE ParentBlogId="+blogId+" ORDER BY create_time DESC")
+       elif query_type == 1:
+      #     self.response.write(query_type)
+           all_blogs = db.GqlQuery('SELECT * from Blogs ORDER BY create_time DESC')
+           blogs = []
+           for b in all_blogs:
+               if query in [b.tag1,b.tag2,b.tag3,b.tag4,b.tag5]:
+                   blogs.append(b)
+        
+       blogpage = Pages.get_by_id(int(blogId))
        blog_name = blogpage.page_name
             
        likes = []
@@ -94,7 +115,7 @@ class viewBlog(webapp2.RequestHandler):
             login_url = users.create_login_url(cur_url)      
        following = 0
        
-       dbquery = "Select * from Follow where item='"+query+"' AND user='"+username+"' AND type="+str(query_type)
+       dbquery = "Select * from Follow where item='"+blogId+"' AND user='"+username+"' AND type="+str(query_type)
        follow_list = db.GqlQuery(dbquery)
        follow_count = 0
        
@@ -105,20 +126,20 @@ class viewBlog(webapp2.RequestHandler):
             following = 1
        
  #      count_blogs = count(blogs)
-       for b in blogs:
-           if b.tag1 not in tags:
+       for b in blogs:           
+           if b.tag1 != "" and b.tag1 not in tags:
                tags.append(b.tag1)
            
-           if b.tag2 not in tags:
+           if b.tag2 != "" and b.tag2 not in tags:
                tags.append(b.tag2)
                
-           if b.tag3 not in tags:
+           if b.tag3 != "" and b.tag3 not in tags:
                tags.append(b.tag3)
                
-           if b.tag4 not in tags:
+           if b.tag4 != "" and b.tag4 not in tags:
                tags.append(b.tag4)
                
-           if b.tag5 not in tags:
+           if b.tag5 != "" and b.tag5 not in tags:
                tags.append(b.tag5) 
  
        for b in blogs:
@@ -137,7 +158,7 @@ class viewBlog(webapp2.RequestHandler):
            likes.append(str(count_likes))
            subset_blogs.append(b)
 #           self.response.write(b.title)
-           text_content = b.content
+           text_content = unicode(b.content, "utf8")
   #         self.response.write(text_content)
            
            
@@ -155,12 +176,15 @@ class viewBlog(webapp2.RequestHandler):
        blogsnlikes = zip(subset_blogs,likes,content)
 #       self.response.write(blogsnlikes)
  #      self.response.write(cur_url)
+       nextpage = page+1
+    #   self.response.write(page)
+    #   self.response.write(nextpage)
        template_values = {
 #                          'blogs': subset_blogs,
                           'blogsnlikes':blogsnlikes,
                           'blog_owner': blog_owner,
                           'more':more,
-                          'nextpage':page+1,
+                          'nextpage':nextpage,
                           'query': query,
                           'query_type' : query_type,
                           'username' : username,
@@ -170,7 +194,8 @@ class viewBlog(webapp2.RequestHandler):
                           'parentId' : parentId,
                           'login' : login,
                           'blogname' : blog_name,
-                          'tags' : tags
+                          'tags' : tags,
+                          'blogId' : blogId
 #                          'likes':likes
                           }
               

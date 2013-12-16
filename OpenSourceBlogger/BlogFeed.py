@@ -154,7 +154,7 @@ class BlogFeed(webapp2.RequestHandler):
            likes.append(str(count_likes))
            subset_blogs.append(b)
 #           self.response.write(b.title)
-           text_content = b.content
+           text_content = unicode(b.content, "utf8")
   #         self.response.write(text_content)
            
            

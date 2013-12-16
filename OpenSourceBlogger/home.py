@@ -131,7 +131,8 @@ class home(webapp2.RequestHandler):
                    comments.append(str(count_comment))
                    #r = re.compile(r"https?://[^ ]+.^(jpg|gif|png)$")
                    #link_content = r.sub(r'<a href="\1">\1</a>', b.content)
-                   link_content = re.sub(r'(https?://[^\s]+)',convert,b.content)
+                   unicode_content = unicode(b.content, "utf8")
+                   link_content = re.sub(r'(https?://[^\s]+)',convert,unicode_content)
                    content.append(link_content)
                    if selected_count == 100:
                        break

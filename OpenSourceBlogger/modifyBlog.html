@@ -27,7 +27,7 @@
 		    {% if caller == 0 %} 
 		    	<input type='text' name='title' width='50px' value="{{ b.title }}"/><br><br>
 			    Contents go here:<br>
-		    	<textarea rows=15 cols=50 name='content'   >{{ b.content }}</textarea><br>
+		    	<textarea rows=15 cols=50 name='content'   >{{ content }}</textarea><br>
 		    {% else %}
 		    	<input type='text' name='title' width='50px' value="{{ title }}"/><br><br>
 		    	Contents go here:<br>
@@ -36,30 +36,30 @@
 		    <input type="submit" name="action" value="Add Picture" >
 		    <br>Enter tags seperated by ; (semi-colon):<br> 
 		    {% if caller == 1%}
-		    	<input type='text' name='tags' value={{ tags }}/><br><br>
+		    	<input type='text' name='tags' value="{{ tags }}" /><br><br>
 		    {% else %}
 		     	{% if b.tag1 == "" %}
-		     		<input type='text' name='tags' value=""/><br><br>
+		     		<input type='text' name='tags' value="" /><br><br>
 		     	{% endif %}
 		     
 			     {% if b.tag1 != "" and b.tag2 == ""%}
-			     	<input type='text' name='tags' value="{{ b.tag1}}"/><br><br>
+			     	<input type='text' name='tags' value="{{ b.tag1}}" /><br><br>
 			     {% endif %}
 			     
 			     {% if b.tag2 != "" and b.tag3 == "" %}
-			     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}}"/><br><br>
+			     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}}" /><br><br>
 			     {% endif %}
 			     
 			     {% if b.tag3 != "" and b.tag4 == "" %}
-			     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}}"/><br><br>
+			     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}}" /><br><br>
 			     {% endif %}
 			     
 			     {% if b.tag4 != "" and b.tag5 == "" %}
-			     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}};{{ b.tag4}}"/><br><br>
+			     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}};{{ b.tag4}}" /><br><br>
 			     {% endif %}
 			     
 			     {% if b.tag5 != "" %}
-			     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}};{{ b.tag4}};{{ b.tag5}}"/><br><br>
+			     	<input type='text' name='tags' value="{{ b.tag1}};{{ b.tag2}};{{ b.tag3}};{{ b.tag4}};{{ b.tag5}}" /><br><br>
 			     {% endif %}
 			{% endif %}
 		    <input type='submit' name="action" value='Modify Blog Post'>

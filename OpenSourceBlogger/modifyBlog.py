@@ -36,11 +36,12 @@ class modifyBlog(webapp2.RequestHandler):
        
        try:
            id = b.key().id()
+           content = unicode(b.content, "utf8")
        except Exception :
    #        self.response.write('caller = 1')
            t = TempStore.get_by_id(blogid)
            blogid = int(t.blogId)     
-           content = t.content
+           content = unicode(t.content, "utf8")
            tags = t.tag
            title = t.title
            caller = 1

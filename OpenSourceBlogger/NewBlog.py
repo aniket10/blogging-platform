@@ -34,8 +34,8 @@ class MainPage(webapp2.RequestHandler):
             b = TempStore.get_by_id(int(blogId))
             type = 1
             page_name = b.ParentBlogId
+            content = unicode(b.content, "utf8")
             title = b.title
-            content = b.content
             tags = b.tag
             
             b.delete()

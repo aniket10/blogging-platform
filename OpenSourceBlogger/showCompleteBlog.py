@@ -74,7 +74,8 @@ class showCompleteBlog(webapp2.RequestHandler):
            count_comments = count_comments + 1
        
   #     self.response.write(b.content)
-       link_content = re.sub(r'(https?://[^\s]+)',convert,b.content)
+       unicode_content = unicode(b.content, "utf8") 
+       link_content = re.sub(r'(https?://[^\s]+)',convert,unicode_content)
    #    self.response.write(link_content)
        
        permalink = cur_url
