@@ -8,23 +8,37 @@ from TempStore import TempStore
 
 class InsertBlogToDataStore(webapp2.RequestHandler):
 
-    def get(self):
-       form = cgi.FieldStorage()
+    def post(self):
+#       form = cgi.FieldStorage()
        
        #self.response.write(form['action'].value)
-       action = form['action'].value 
+#       action = form['action'].value 
        
-       form_title = form['title'].value
-       form_content = form['content'].value
+#       form_title = form['title'].value
+#       form_content = form['content'].value
+#       try:
+#           form_tags = form['tags'].value
+#       except Exception:
+#            form_tags=""
+#       form_parent = form['parentPageId'].value
+#       form_create_time = datetime.now()
+#       form_modify_time = datetime.now()
+#       form_owner = form['owner'].value
+#       sessionId = form['sessionId'].value
+
+       form_title = self.request.get('title')
+       form_content = str(self.request.get('content'))
        try:
-           form_tags = form['tags'].value
+           form_tags = self.request.get('tags')
        except Exception:
             form_tags=""
-       form_parent = form['parentPageId'].value
-       form_create_time = datetime.now()
+       form_parent = self.request.get('parentPageId')
+       form_create_time = datetime.now() 
        form_modify_time = datetime.now()
-       form_owner = form['owner'].value
-#       sessionId = form['sessionId'].value
+       form_owner = self.request.get('owner')
+       action = self.request.get('action')
+       
+       
        tags = form_tags.split(';')
        count_tags=len(tags)
                          

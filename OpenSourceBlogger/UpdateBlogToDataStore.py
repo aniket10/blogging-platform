@@ -10,22 +10,36 @@ from TempStore import TempStore
 
 class UpdateBlogToDataStore(webapp2.RequestHandler):
 
-    def get(self):
-       form = cgi.FieldStorage()
+    def post(self):
+#       form = cgi.FieldStorage()
        
-       action = form['action'].value 
+#      action = form['action'].value 
        
-       blogid = form['blogid'].value
+#       blogid = form['blogid'].value
+       blogid = self.request.get('blogid')
+       form_title = self.request.get('title')
+       form_content = str(self.request.get('content'))
+       try:
+           form_tags = self.request.get('tags')
+       except Exception:
+            form_tags=""
+       form_modify_time = datetime.now()
+       form_owner = self.request.get('owner')
+       action = self.request.get('action')
+
        b = Blogs.get_by_id(int(blogid))
        
-       form_title = form['title'].value
-       form_content = form['content'].value
-       try:
-           form_tags = form['tags'].value
-       except Exception:
-           form_tags = ""
-       form_modify_time = datetime.now()
-       form_owner = form['owner'].value
+#       form_title = form['title'].value
+#       form_content = form['content'].value
+#       try:
+#           form_tags = form['tags'].value
+#       except Exception:
+#           form_tags = ""
+#       form_modify_time = datetime.now()
+#       form_owner = form['owner'].value
+
+       
+       
        tags = form_tags.split(';')
        count_tags=len(tags)
        

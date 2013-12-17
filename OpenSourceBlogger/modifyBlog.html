@@ -20,7 +20,7 @@
     	<table align=center width="50%" bgcolor="#FFFFFF" cellpadding = "20">
     	<tr><td>
 	    	<h3>Modify Blog Post</h3>
-		    <form name = 'newBlog' action='UpdateBlogToDataStore.py' >
+		    <form name = 'newBlog' action='UpdateBlogToDataStore.py' method="POST" >
 		    <input type=hidden name='owner' value={{ b.owner }} ></input>
 		    <input type = hidden name = "blogid" value = {{ b.key().id() }} />
 		    Title goes here:

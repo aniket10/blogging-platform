@@ -17,7 +17,7 @@
 		<table align=center width="50%" bgcolor="#FFFFFF" cellpadding = "20">
 	    <tr><td>
 	    	<h3>Create New Blog Post</h3>
-		    <form name = 'newBlog' action='InsertBlogToDataStore.py' >
+		    <form name = 'newBlog' action='InsertBlogToDataStore.py' method="POST">
 		    <input type="hidden" name='owner' value="{{ username }}" ></input>
 		    <input type="hidden" name='parentPageId' value="{{ parentPageId }}" ></input>
 		    Title goes here:
