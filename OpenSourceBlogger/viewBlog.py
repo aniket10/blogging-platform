@@ -72,6 +72,11 @@ class viewBlog(webapp2.RequestHandler):
        blog_name = ""
        tags = []      
             
+       p = Pages.get_by_id(int(blogId))
+       views = p.views
+       views = views + 1     
+       p.views = views
+       p.put()
        blogs = db.GqlQuery("SELECT * FROM Blogs WHERE ParentBlogId="+blogId+" ORDER BY create_time DESC")
        for b in blogs:           
            if b.tag1 != "" and b.tag1 not in tags:
@@ -196,7 +201,8 @@ class viewBlog(webapp2.RequestHandler):
                           'login' : login,
                           'blogname' : blog_name,
                           'tags' : tags,
-                          'blogId' : blogId
+                          'blogId' : blogId,
+                          'views' : views
 #                          'likes':likes
                           }
               

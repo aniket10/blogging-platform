@@ -51,6 +51,7 @@
 	    	{% endif %}
 	    	Get the  
 	    	<a href=/rss.py?blogId={{ blogId }}>RSS</a> for the blog<br>
+	    	<b>Views : </b>{{views }}<br>
 	    	Other Tags in the Blog: 
 	    	{% for t in tags %}
 	    		<a href="/viewBlog.py?blogId={{ blogId }}&query={{ t }}&page=1">{{ t }}</a>&nbsp;&nbsp;&nbsp; |

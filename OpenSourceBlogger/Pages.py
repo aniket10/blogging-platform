@@ -9,6 +9,7 @@ class Pages(db.Model):
     owner= db.StringProperty(required = True)
     create_time = db.DateTimeProperty(required = True)
     tags = db.StringProperty
+    views = db.IntegerProperty(default = 0)
     
 application = webapp2.WSGIApplication([
     ('/Pages.*',Pages)
