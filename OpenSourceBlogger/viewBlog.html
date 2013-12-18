@@ -77,8 +77,10 @@
 	    		</form>
 	    	{% endif %}
 	    {% endif %}	
+	    </td></tr><table><br>
 		{% for b,l,c in blogsnlikes %}
-		     <hr>
+		     <table align=center width="50%" bgcolor="#FFFFFF" cellpadding = "20">
+			  <tr><td>
 		     <h3><a href=showCompleteBlog.py?blogid={{ b.key().id() }}>{{ b.title }}</a></h3>
 		     By {{ b.owner }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		     {% if username == b.owner %}
@@ -159,15 +161,19 @@
 			{% else %}
 				Login to Rate or Comment
 			{% endif %}
+			</td></tr></table>	<br>
 			{% endfor %}      
-		<br><br>
+		<br>
 		{% if more == 1 %}
+			<table align=center width="50%" bgcolor="#FFFFFF" cellpadding = "20">
+			  <tr><td>
 			{% if query_type == 2 %}
 				<a href = /viewBlog.py?blogId={{ blogId }}&page={{ nextpage }}>Next Page</a>
 			{% else %}
 			<a href = /viewBlog.py?blogId={{ blogId }}&query={{ query }}&page={{ nextpage }}>Next Page</a>
 			{% endif %}
+			</td></tr></table>
 		{% endif %} 
-	</td></tr></table>	 
+	 
 	</body></html>
 	

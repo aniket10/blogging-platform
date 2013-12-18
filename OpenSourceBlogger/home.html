@@ -71,13 +71,17 @@
 		</form>
 		<br>
 		<hr>
-	</td></tr>
-	<tr><td>
+	</td></tr></table><br>
+	<table align=center width="50%" bgcolor="#FFFFFF" cellpadding = "20">
+	<tr><td>	
 	    {% if login == 1 %}
-		<h3>Aggregated Blog Feed</h3>
+		<h3 align=center>Aggregated Blog Feed</h3>
 		{% endif %}
+		</td></tr></table>
+		<br>
 		{% for d,c,cn in display_listnComments %}
-		     <hr>
+		     <table align=center width="50%" bgcolor="#FFFFFF" cellpadding = "20">
+			<tr><td>
 		     <h3><a href=showCompleteBlog.py?blogid={{ d.key().id() }}>{{ d.title }}</a></h3>
 		     By {{ d.owner }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		     <h5> Created on:{{ d.create_time }}<br>
@@ -150,9 +154,9 @@
 		     		    </form>
 		     		</td>	     		
 		     </table>
-		     
+		     </td></tr></table><br>
 		{% endfor %}
-	</td></tr></table>
+	
 </body>
 </html>
 
